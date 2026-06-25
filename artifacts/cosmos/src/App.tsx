@@ -11,6 +11,7 @@ import KnowledgeGalaxy from "@/pages/KnowledgeGalaxy";
 import DigitalTwin from "@/pages/DigitalTwin";
 import StarCollections from "@/pages/StarCollections";
 import EventStream from "@/pages/EventStream";
+import UniverseOS from "@/pages/UniverseOS";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/twin" component={DigitalTwin} />
         <Route path="/collections" component={StarCollections} />
         <Route path="/timeline" component={EventStream} />
+        <Route path="/universe" component={UniverseOS} />
         <Route component={NotFound} />
       </Switch>
     </Layout>

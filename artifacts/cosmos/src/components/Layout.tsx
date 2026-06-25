@@ -9,7 +9,8 @@ import {
   FolderOpen, 
   Clock,
   Menu,
-  Activity
+  Activity,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -17,6 +18,7 @@ import { useHealthCheck, getHealthCheckQueryKey } from "@workspace/api-client-re
 
 const NAV_ITEMS = [
   { href: "/", label: "Command Center", icon: Rocket },
+  { href: "/universe", label: "Universe OS", icon: Globe },
   { href: "/notes", label: "Knowledge Vault", icon: BookOpen },
   { href: "/maka", label: "Prompt Terminal", icon: Terminal },
   { href: "/graph", label: "Knowledge Galaxy", icon: Network },
