@@ -107,15 +107,15 @@ export default function KnowledgeGalaxy() {
         <CardContent>
            {nodesLoading ? (
                <Skeleton className="h-20 bg-white/5 rounded-lg" />
-           ) : nodes?.length ? (
+           ) : nodes?.nodes?.length ? (
              <div className="flex flex-wrap gap-2">
-               {nodes.slice(0, 50).map(n => (
+               {nodes.nodes.slice(0, 50).map(n => (
                  <div key={n.id} className="text-xs bg-white/5 border border-white/10 rounded px-2 py-1 flex items-center gap-2 cursor-default hover:bg-white/10">
                    <div className="w-2 h-2 rounded-full bg-primary/50" />
                    <span className="max-w-[150px] truncate">{n.label}</span>
                  </div>
                ))}
-               {nodes.length > 50 && <span className="text-xs text-muted-foreground py-1 px-2">+ {nodes.length - 50} more</span>}
+               {nodes.nodes.length > 50 && <span className="text-xs text-muted-foreground py-1 px-2">+ {nodes.nodes.length - 50} more</span>}
              </div>
            ) : (
              <p className="text-muted-foreground text-sm font-mono">No nodes identified.</p>

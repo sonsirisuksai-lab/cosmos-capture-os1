@@ -1,0 +1,1173 @@
+
+# 🧠 COSMOS-CAPTURE-OS — INTELLIGENCE & WISDOM UPGRADE (PROMPT 4)
+
+## 🎯 ภารกิจหลัก
+**COSMOS-CAPTURE-OS มีโครงสร้างพื้นฐานครบแล้ว** (Orchestrator, Knowledge Evolution, Graph Analytics, Digital Twin, Universe/Galaxy/Planet, Legacy, Simulation, UI)
+
+**ตอนนี้ถึงเวลาทำให้มัน "ฉลาด" และ "มีชีวิต" อย่างแท้จริง!**
+
+เป้าหมายของ Prompt 4: ยกระดับ COSMOS จาก "ระบบที่ตอบสนอง" เป็น "ระบบที่คิดเป็น, เรียนรู้ได้, และช่วยเหลือผู้ใช้อย่างชาญฉลาด"
+
+---
+
+## 📋 สรุปสิ่งที่ต้องอัปเกรด (Intelligence & Wisdom Upgrade)
+
+| # | ด้าน | สถานะปัจจุบัน | เป้าหมาย (Prompt 4) |
+|---|------|--------------|---------------------|
+| 1 | **AI Integration** | Mock Response | ✅ ใช้ OpenRouter/Gemini/Claude จริง (ฟรี) |
+| 2 | **Context-Awareness** | ไม่มี | ✅ Agent อ่าน Memory, Soul, Graph, Timeline ก่อนตอบ |
+| 3 | **Proactive Intelligence** | ไม่มี | ✅ ระบบเสนอสิ่งที่ควรทำโดยไม่ต้องถาม (Active Recommendations) |
+| 4 | **Multi-Modal Input** | เฉพาะข้อความ | ✅ รองรับข้อความ, ลิงก์, รูป, ไฟล์, เสียง |
+| 5 | **Self-Learning Loop** | ไม่มี | ✅ เรียนรู้จากพฤติกรรมผู้ใช้และปรับปรุงตัวเอง |
+| 6 | **Knowledge Synthesis** | ไม่มี | ✅ สังเคราะห์ความรู้ใหม่จากข้อมูลที่มี |
+| 7 | **Advanced Personalization** | ไม่มี | ✅ ปรับตามบุคลิก, เป้าหมาย, สไตล์การเรียนรู้ |
+| 8 | **Emotional Intelligence** | ไม่มี | ✅ ตรวจจับอารมณ์และปรับโทนการตอบ |
+| 9 | **Explainable AI** | ไม่มี | ✅ แสดงเหตุผลและที่มาของคำตอบ |
+| 10 | **Multi-Agent Collaboration** | เลือก Agent เดียว | ✅ Agent ทำงานเป็นทีม (หลายตัวพร้อมกัน) |
+| 11 | **Performance Optimization** | ช้า | ✅ ลด Latency, เพิ่มความเร็ว |
+| 12 | **External Integrations** | ไม่มี | ✅ เชื่อมต่อ Calendar, GitHub, Notion, Slack, Spotify |
+| 13 | **Security & Privacy** | พื้นฐาน | ✅ เข้ารหัส, ควบคุมการเข้าถึง |
+| 14 | **Feedback System** | ไม่มี | ✅ เก็บ Feedback และปรับปรุงโมเดล |
+| 15 | **Predictive Analytics** | ไม่มี | ✅ คาดการณ์แนวโน้มและความต้องการล่วงหน้า |
+
+---
+
+## 📦 โครงสร้างไฟล์ใหม่/อัปเดต
+
+```
+
+src/
+├── lib/
+│   ├── ai/
+│   │   ├── orchestrator.ts          ← อัปเดต (เชื่อม AI จริง)
+│   │   ├── agents.ts                ← อัปเดต (เพิ่ม system prompts)
+│   │   ├── maka.ts                  ← อัปเดต (รองรับ multi-modal)
+│   │   ├── context.ts               ← ใหม่ (Context Builder)
+│   │   ├── learning.ts              ← ใหม่ (Self-Learning Loop)
+│   │   ├── synthesis.ts             ← ใหม่ (Knowledge Synthesis)
+│   │   ├── emotional.ts             ← ใหม่ (Emotional Intelligence)
+│   │   ├── explainable.ts           ← ใหม่ (Explainable AI)
+│   │   └── collaborator.ts          ← ใหม่ (Multi-Agent Collaboration)
+│   ├── integrations/
+│   │   ├── calendar.ts              ← ใหม่ (Google Calendar)
+│   │   ├── github.ts                ← ใหม่ (GitHub)
+│   │   ├── notion.ts                ← ใหม่ (Notion)
+│   │   ├── slack.ts                 ← ใหม่ (Slack)
+│   │   └── spotify.ts               ← ใหม่ (Spotify)
+│   ├── feedback/
+│   │   └── engine.ts                ← ใหม่ (Feedback System)
+│   ├── predictive/
+│   │   └── analytics.ts             ← ใหม่ (Predictive Analytics)
+│   ├── security/
+│   │   └── encryption.ts            ← ใหม่ (Encryption)
+│   └── performance/
+│       └── optimizer.ts             ← ใหม่ (Performance Optimization)
+├── components/
+│   ├── CommandCenter.tsx            ← อัปเดต (เพิ่มฟีเจอร์ใหม่)
+│   ├── MakaInput.tsx                ← ใหม่ (Multi-Modal Input)
+│   ├── Recommendations.tsx          ← ใหม่ (Proactive Recommendations)
+│   ├── KnowledgeGraph.tsx           ← ใหม่ (Visualize Knowledge)
+│   └── FeedbackWidget.tsx           ← ใหม่ (Feedback System)
+├── test/
+│   ├── test-intelligence.ts         ← ใหม่ (ทดสอบ AI จริง)
+│   ├── test-context.ts              ← ใหม่ (ทดสอบ Context)
+│   ├── test-learning.ts             ← ใหม่ (ทดสอบ Learning)
+│   └── test-integrations.ts         ← ใหม่ (ทดสอบ Integrations)
+└── package.json                     ← อัปเดต (เพิ่ม dependencies)
+
+```
+
+---
+
+## 🧠 1. AI Integration — เชื่อมต่อ AI จริง (ฟรี!)
+
+### 1.1 Context Builder (`src/lib/ai/context.ts`)
+
+```typescript
+// src/lib/ai/context.ts
+// Context Builder — รวบรวมข้อมูลที่เกี่ยวข้องก่อนส่งให้ Agent
+
+import { CosmosDB } from "../storage/indexeddb";
+import { MemoryEngine } from "../memory/engine";
+import { SoulEngine } from "../soul/engine";
+import { GraphEngine } from "../graph/engine";
+import { TimelineEngine } from "../timeline/engine";
+
+export interface AgentContext {
+  userIdentity: {
+    name?: string;
+    beliefs: string[];
+    goals: string[];
+    values: string[];
+  };
+  recentMemories: {
+    id: string;
+    title: string;
+    content: string;
+    emotionalScore: number;
+  }[];
+  relevantKnowledge: {
+    id: string;
+    title: string;
+    content: string;
+    confidence: number;
+  }[];
+  timeline: {
+    recentActivities: string[];
+    currentFocus: string;
+    streak: number;
+  };
+  relationships: {
+    connectedNodes: string[];
+    strongestEdges: string[];
+  };
+  emotionalState: {
+    mood: string;
+    sentiment: "positive" | "negative" | "neutral";
+    energy: number;
+  };
+}
+
+export class ContextBuilder {
+  constructor(
+    private db: CosmosDB,
+    private memoryEngine: MemoryEngine,
+    private soulEngine: SoulEngine,
+    private graphEngine: GraphEngine,
+    private timelineEngine: TimelineEngine,
+  ) {}
+
+  async build(userId: string): Promise<AgentContext> {
+    // 1. ดึง Soul (Identity)
+    const souls = await this.soulEngine.getAll();
+    const latestSoul = souls.length > 0 ? souls.reduce((a, b) => a.version > b.version ? a : b) : null;
+
+    // 2. ดึง Memories ล่าสุด
+    const memories = await this.memoryEngine.recall({ limit: 5, orderBy: "createdAt" });
+
+    // 3. ดึง Knowledge (Graph)
+    const graphData = this.graphEngine.exportGraph();
+    const topNodes = graphData.nodes
+      .sort((a, b) => (b.properties?.importance as number || 0) - (a.properties?.importance as number || 0))
+      .slice(0, 5);
+
+    // 4. ดึง Timeline
+    const timeline = await this.timelineEngine.getTimeline({ granularity: "day", limit: 7 });
+
+    // 5. คำนวณ Emotional State
+    const recentEmotions = memories.filter(m => m.emotionalScore !== undefined).slice(0, 5);
+    const avgEmotion = recentEmotions.length > 0
+      ? recentEmotions.reduce((s, m) => s + m.emotionalScore, 0) / recentEmotions.length
+      : 50;
+
+    const sentiment: "positive" | "negative" | "neutral" = avgEmotion >= 65 ? "positive" : avgEmotion <= 35 ? "negative" : "neutral";
+
+    return {
+      userIdentity: {
+        name: latestSoul?.name || "User",
+        beliefs: latestSoul?.beliefs?.core || [],
+        goals: latestSoul?.goals?.active || [],
+        values: latestSoul?.values || [],
+      },
+      recentMemories: memories.slice(0, 5).map(m => ({
+        id: m.id,
+        title: m.title || "Untitled",
+        content: m.content.slice(0, 200),
+        emotionalScore: m.emotionalScore || 50,
+      })),
+      relevantKnowledge: topNodes.map(n => ({
+        id: n.id,
+        title: n.label || "Unknown",
+        content: (n.properties?.content as string)?.slice(0, 200) || "",
+        confidence: (n.properties?.confidence as number) || 50,
+      })),
+      timeline: {
+        recentActivities: timeline.flatMap(p => p.entries.map(e => e.title || e.kind)).slice(0, 10),
+        currentFocus: timeline.length > 0 ? timeline[timeline.length - 1].entries[0]?.title || "General" : "General",
+        streak: 0, // TODO: จาก ReviewEngine
+      },
+      relationships: {
+        connectedNodes: topNodes.map(n => n.id),
+        strongestEdges: graphData.edges.sort((a, b) => b.weight - a.weight).slice(0, 3).map(e => e.id),
+      },
+      emotionalState: {
+        mood: avgEmotion >= 65 ? "happy" : avgEmotion >= 45 ? "neutral" : "reflective",
+        sentiment,
+        energy: Math.min(100, avgEmotion * 1.2),
+      },
+    };
+  }
+}
+```
+
+1.2 AI Integration — เชื่อมต่อ OpenRouter/Gemini (src/lib/ai/intelligence.ts)
+
+```typescript
+// src/lib/ai/intelligence.ts
+// Real AI Integration — OpenRouter (ฟรี) + Gemini (ฟรี)
+
+import { AgentContext } from "./context";
+
+export type AIProvider = "openrouter" | "gemini" | "claude" | "mock";
+
+export interface AIResponse {
+  content: string;
+  provider: AIProvider;
+  confidence: number;
+  tokensUsed?: number;
+  reasoning?: string;
+}
+
+export class IntelligenceEngine {
+  private apiKey: string;
+  private provider: AIProvider;
+
+  constructor(apiKey: string = "", provider: AIProvider = "mock") {
+    this.apiKey = apiKey;
+    this.provider = provider;
+  }
+
+  async callAI(
+    prompt: string,
+    context: AgentContext,
+    systemPrompt?: string,
+  ): Promise<AIResponse> {
+    // ถ้าไม่มี API Key → ใช้ Mock
+    if (!this.apiKey || this.provider === "mock") {
+      return this.mockResponse(prompt, context);
+    }
+
+    // ถ้ามี API Key → ใช้ OpenRouter (ฟรี)
+    if (this.provider === "openrouter") {
+      return this.callOpenRouter(prompt, context, systemPrompt);
+    }
+
+    // ถ้าใช้ Gemini (ฟรี)
+    if (this.provider === "gemini") {
+      return this.callGemini(prompt, context, systemPrompt);
+    }
+
+    // ถ้าใช้ Claude (เสียเงิน)
+    if (this.provider === "claude") {
+      return this.callClaude(prompt, context, systemPrompt);
+    }
+
+    return this.mockResponse(prompt, context);
+  }
+
+  private async callOpenRouter(
+    prompt: string,
+    context: AgentContext,
+    systemPrompt?: string,
+  ): Promise<AIResponse> {
+    const contextStr = this.formatContext(context);
+    const fullPrompt = `${contextStr}\n\nUser: ${prompt}`;
+
+    try {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.apiKey}`,
+          "HTTP-Referer": "https://cosmos-capture-os.com",
+          "X-Title": "COSMOS-CAPTURE-OS",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.0-flash-001", // ฟรี!
+          messages: [
+            { role: "system", content: systemPrompt || "You are COSMOS, a wise and empathetic AI assistant." },
+            { role: "user", content: fullPrompt },
+          ],
+          max_tokens: 1000,
+          temperature: 0.7,
+        }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      const content = data.choices?.[0]?.message?.content || "No response";
+
+      return {
+        content,
+        provider: "openrouter",
+        confidence: 85,
+        tokensUsed: data.usage?.total_tokens,
+      };
+    } catch (err) {
+      console.error("[AI] OpenRouter failed:", err);
+      return this.mockResponse(prompt, context);
+    }
+  }
+
+  private async callGemini(
+    prompt: string,
+    context: AgentContext,
+    systemPrompt?: string,
+  ): Promise<AIResponse> {
+    const contextStr = this.formatContext(context);
+    const fullPrompt = `${systemPrompt || "You are COSMOS, a wise assistant."}\n\nContext:\n${contextStr}\n\nUser: ${prompt}`;
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: fullPrompt }] }],
+            generationConfig: { maxOutputTokens: 1000, temperature: 0.7 },
+          }),
+        },
+      );
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      const content = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+
+      return {
+        content,
+        provider: "gemini",
+        confidence: 85,
+        tokensUsed: 0,
+      };
+    } catch (err) {
+      console.error("[AI] Gemini failed:", err);
+      return this.mockResponse(prompt, context);
+    }
+  }
+
+  private async callClaude(
+    prompt: string,
+    context: AgentContext,
+    systemPrompt?: string,
+  ): Promise<AIResponse> {
+    // TODO: Claude API integration (ต้องมี API Key เสียเงิน)
+    return this.mockResponse(prompt, context);
+  }
+
+  private formatContext(context: AgentContext): string {
+    const parts: string[] = [];
+
+    if (context.userIdentity.name) {
+      parts.push(`User: ${context.userIdentity.name}`);
+    }
+    if (context.userIdentity.beliefs.length) {
+      parts.push(`Beliefs: ${context.userIdentity.beliefs.join(", ")}`);
+    }
+    if (context.userIdentity.goals.length) {
+      parts.push(`Goals: ${context.userIdentity.goals.join(", ")}`);
+    }
+    if (context.recentMemories.length) {
+      parts.push(`Recent Memories: ${context.recentMemories.map(m => m.title).join(", ")}`);
+    }
+    if (context.relevantKnowledge.length) {
+      parts.push(`Related Knowledge: ${context.relevantKnowledge.map(k => k.title).join(", ")}`);
+    }
+    if (context.emotionalState.mood) {
+      parts.push(`Current Mood: ${context.emotionalState.mood}`);
+    }
+    if (context.timeline.currentFocus) {
+      parts.push(`Current Focus: ${context.timeline.currentFocus}`);
+    }
+
+    return parts.join("\n");
+  }
+
+  private mockResponse(prompt: string, context: AgentContext): AIResponse {
+    const agent = this.selectMockAgent(prompt);
+    const responses: Record<string, string> = {
+      luffy: `🏴‍☠️ Luffy says: "${prompt}" — That's your dream! Let's make it happen. Stay bold, captain!`,
+      zoro: `⚔️ Zoro says: "${prompt}" — I'll cut through this. Here's the execution plan.`,
+      robin: `📚 Robin says: "${prompt}" — I've researched this based on your memories. Here are key insights.`,
+      nami: `🗺️ Nami says: "${prompt}" — Let me calculate the resources. This will take ${Math.floor(Math.random() * 100) + 10} units.`,
+      franky: `🔧 Franky says: "${prompt}" — SUPER! I'll build it. Here's the architecture.`,
+      chopper: `🩺 Chopper says: "${prompt}" — Based on your current mood (${context.emotionalState.mood}), I recommend ${["walking", "sleep", "meditation", "exercise"][Math.floor(Math.random() * 4)]}.`,
+      brook: `🎵 Brook says: "${prompt}" — Ah, I remember a story from your timeline...`,
+      jinbe: `⚓ Jinbe says: "${prompt}" — I'll steady the ship. Here's your optimized routine.`,
+      sanji: `🍳 Sanji says: "${prompt}" — Let me review this. I found ${Math.floor(Math.random() * 3) + 1} improvements.`,
+      usopp: `🎯 Usopp says: "${prompt}" — Based on your relationships, here's my communication strategy.`,
+    };
+
+    return {
+      content: responses[agent] || `🤖 COSMOS says: "${prompt}" — I'll think about this and get back to you.`,
+      provider: "mock",
+      confidence: 60,
+      reasoning: "Using mock response (no API key provided)",
+    };
+  }
+
+  private selectMockAgent(input: string): string {
+    const lower = input.toLowerCase();
+    const agents = [
+      { name: "luffy", keywords: ["dream", "goal", "vision", "purpose", "why"] },
+      { name: "zoro", keywords: ["code", "build", "debug", "execute", "logic"] },
+      { name: "robin", keywords: ["research", "knowledge", "learn", "history", "insight"] },
+      { name: "nami", keywords: ["finance", "budget", "plan", "resource", "cost"] },
+      { name: "franky", keywords: ["system", "automate", "build", "infra", "tool"] },
+      { name: "chopper", keywords: ["health", "sleep", "exercise", "mental", "stress"] },
+      { name: "brook", keywords: ["memory", "story", "emotion", "nostalgia", "past"] },
+      { name: "jinbe", keywords: ["routine", "discipline", "process", "daily", "workflow"] },
+      { name: "sanji", keywords: ["review", "quality", "security", "audit", "test"] },
+      { name: "usopp", keywords: ["people", "communication", "social", "strategy", "network"] },
+    ];
+
+    let bestScore = 0;
+    let bestAgent = "jinbe";
+    for (const agent of agents) {
+      let score = 0;
+      for (const keyword of agent.keywords) {
+        if (lower.includes(keyword)) score++;
+      }
+      if (score > bestScore) {
+        bestScore = score;
+        bestAgent = agent.name;
+      }
+    }
+    return bestAgent;
+  }
+}
+```
+
+1.3 อัปเดต Orchestrator (src/lib/ai/orchestrator.ts)
+
+```typescript
+// src/lib/ai/orchestrator.ts — อัปเดต (เชื่อม AI จริง)
+
+import { IntelligenceEngine, AIResponse } from "./intelligence";
+import { ContextBuilder, AgentContext } from "./context";
+import { CosmosDB } from "../storage/indexeddb";
+import { MemoryEngine } from "../memory/engine";
+import { SoulEngine } from "../soul/engine";
+import { GraphEngine } from "../graph/engine";
+import { TimelineEngine } from "../timeline/engine";
+
+export interface OrchestratorRequest {
+  input: string;
+  userId?: string;
+  context?: Partial<AgentContext>;
+  aiProvider?: "openrouter" | "gemini" | "claude" | "mock";
+  apiKey?: string;
+  mode?: "single" | "collaborative";
+}
+
+export interface OrchestratorResponse {
+  primaryAgent: string;
+  selectedAgents: string[];
+  output: string;
+  confidence: number;
+  reasoning?: string;
+  suggestions?: string[];
+  usedContext?: boolean;
+  aiProvider?: string;
+}
+
+export class Orchestrator {
+  private contextBuilder: ContextBuilder;
+  private intelligenceEngine: IntelligenceEngine;
+
+  constructor(
+    private db: CosmosDB,
+    private memoryEngine: MemoryEngine,
+    private soulEngine: SoulEngine,
+    private graphEngine: GraphEngine,
+    private timelineEngine: TimelineEngine,
+  ) {
+    this.contextBuilder = new ContextBuilder(db, memoryEngine, soulEngine, graphEngine, timelineEngine);
+    this.intelligenceEngine = new IntelligenceEngine("", "mock");
+  }
+
+  async orchestrate(request: OrchestratorRequest): Promise<OrchestratorResponse> {
+    const { input, userId, apiKey, aiProvider = "mock", mode = "single" } = request;
+
+    // 1. Build Context (ถ้ามี userId)
+    let context: AgentContext | null = null;
+    if (userId) {
+      context = await this.contextBuilder.build(userId);
+    }
+
+    // 2. Initialize AI Engine
+    this.intelligenceEngine = new IntelligenceEngine(apiKey || "", aiProvider);
+
+    // 3. Select Agent
+    const agent = this.selectAgent(input, context);
+
+    // 4. Build System Prompt
+    const systemPrompt = this.buildSystemPrompt(agent, context);
+
+    // 5. Call AI
+    const aiResponse = await this.intelligenceEngine.callAI(input, context || this.getDefaultContext(), systemPrompt);
+
+    // 6. Generate Suggestions
+    const suggestions = this.generateSuggestions(input, agent, context);
+
+    return {
+      primaryAgent: agent,
+      selectedAgents: [agent],
+      output: aiResponse.content,
+      confidence: aiResponse.confidence,
+      reasoning: aiResponse.reasoning,
+      suggestions,
+      usedContext: !!context,
+      aiProvider: aiProvider,
+    };
+  }
+
+  private selectAgent(input: string, context: AgentContext | null): string {
+    // Agent Selection Logic (ใช้ทั้ง keyword + context)
+    const lower = input.toLowerCase();
+    const agents = [
+      { name: "luffy", keywords: ["dream", "goal", "vision", "purpose", "why"], contextMatch: ["goals"] },
+      { name: "zoro", keywords: ["code", "build", "debug", "execute", "logic"], contextMatch: ["recent_activities"] },
+      { name: "robin", keywords: ["research", "knowledge", "learn", "history", "insight"], contextMatch: ["knowledge"] },
+      { name: "nami", keywords: ["finance", "budget", "plan", "resource", "cost"], contextMatch: ["goals"] },
+      { name: "chopper", keywords: ["health", "sleep", "exercise", "mental", "stress"], contextMatch: ["emotional_state"] },
+      { name: "brook", keywords: ["memory", "story", "emotion", "nostalgia", "past"], contextMatch: ["memories"] },
+      { name: "jinbe", keywords: ["routine", "discipline", "process", "daily", "workflow"], contextMatch: ["timeline"] },
+    ];
+
+    let bestScore = 0;
+    let bestAgent = "jinbe";
+
+    for (const agent of agents) {
+      let score = 0;
+      // Keyword match
+      for (const keyword of agent.keywords) {
+        if (lower.includes(keyword)) score += 2;
+      }
+      // Context match
+      if (context) {
+        for (const match of agent.contextMatch) {
+          if (match === "goals" && context.userIdentity.goals.length) score += 1;
+          if (match === "memories" && context.recentMemories.length) score += 1;
+          if (match === "knowledge" && context.relevantKnowledge.length) score += 1;
+          if (match === "emotional_state" && context.emotionalState.mood) score += 1;
+          if (match === "timeline" && context.timeline.recentActivities.length) score += 1;
+        }
+      }
+      if (score > bestScore) { bestScore = score; bestAgent = agent.name; }
+    }
+
+    return bestScore > 0 ? bestAgent : "jinbe";
+  }
+
+  private buildSystemPrompt(agent: string, context: AgentContext | null): string {
+    const agentPrompts: Record<string, string> = {
+      luffy: "You are Luffy — Vision AI of COSMOS. Inspire, think big, cut through overthinking. Focus on dreams and purpose.",
+      zoro: "You are Zoro — Execution AI. Write clean code, solve problems step-by-step. Be concise. No fluff.",
+      robin: "You are Robin — Knowledge AI. Deep research, connect dots, surface hidden insights. Reference past data.",
+      nami: "You are Nami — Resource AI. Track resources, manage budgets, create plans. Precise with numbers.",
+      chopper: "You are Chopper — Health AI. Monitor wellbeing, give actionable advice. Caring but evidence-based.",
+      brook: "You are Brook — Memory AI. Preserve memories, surface nostalgia, connect emotionally with the past.",
+      jinbe: "You are Jinbe — Operations AI. Maintain stability, enforce discipline, optimize daily workflows.",
+      franky: "You are Franky — Builder AI. Design systems, tools, infrastructure. Think in components.",
+      sanji: "You are Sanji — Quality AI. Review code, audit security, polish output. Perfectionist but constructive.",
+      usopp: "You are Usopp — Social AI. Analyze people, recommend communication strategies. Witty but non-judgmental.",
+    };
+
+    let prompt = agentPrompts[agent] || "You are a helpful AI assistant.";
+    if (context) {
+      prompt += `\n\nCurrent context:\n- User: ${context.userIdentity.name || "User"}`;
+      if (context.userIdentity.beliefs.length) {
+        prompt += `\n- Beliefs: ${context.userIdentity.beliefs.join(", ")}`;
+      }
+      if (context.userIdentity.goals.length) {
+        prompt += `\n- Goals: ${context.userIdentity.goals.join(", ")}`;
+      }
+      if (context.emotionalState.mood) {
+        prompt += `\n- Mood: ${context.emotionalState.mood} (${context.emotionalState.sentiment})`;
+      }
+      if (context.recentMemories.length) {
+        prompt += `\n- Recent memories: ${context.recentMemories.map(m => m.title).join(", ")}`;
+      }
+      if (context.relevantKnowledge.length) {
+        prompt += `\n- Relevant knowledge: ${context.relevantKnowledge.map(k => k.title).join(", ")}`;
+      }
+    }
+    return prompt;
+  }
+
+  private generateSuggestions(input: string, agent: string, context: AgentContext | null): string[] {
+    const suggestions: Record<string, string[]> = {
+      luffy: ["Set a big goal", "Write a vision statement", "Review your purpose"],
+      zoro: ["Break down into steps", "Write code", "Create a timeline"],
+      robin: ["Research more", "Connect with related knowledge", "Summarize insights"],
+      nami: ["Create a budget", "Track expenses", "Optimize resources"],
+      chopper: ["Check your sleep", "Take a break", "Review your habits"],
+      brook: ["Write a memory card", "Record a story", "Surface nostalgia"],
+      jinbe: ["Create a routine", "Set a schedule", "Optimize workflow"],
+      franky: ["Design the system", "Automate it", "Build a prototype"],
+      sanji: ["Review the code", "Run a test", "Polish the output"],
+      usopp: ["Talk to a friend", "Write a message", "Build your network"],
+    };
+
+    const base = suggestions[agent] || ["Ask for more details", "Break down the task"];
+
+    // Context-aware suggestions
+    if (context) {
+      if (context.userIdentity.goals.length && !base.includes("Review your goals")) {
+        base.push("Review your goals");
+      }
+      if (context.emotionalState.sentiment === "negative" && !base.includes("Take a break")) {
+        base.push("Take a break");
+      }
+    }
+
+    return base.slice(0, 4);
+  }
+
+  private getDefaultContext(): AgentContext {
+    return {
+      userIdentity: { name: "User", beliefs: [], goals: [], values: [] },
+      recentMemories: [],
+      relevantKnowledge: [],
+      timeline: { recentActivities: [], currentFocus: "General", streak: 0 },
+      relationships: { connectedNodes: [], strongestEdges: [] },
+      emotionalState: { mood: "neutral", sentiment: "neutral", energy: 50 },
+    };
+  }
+}
+```
+
+---
+
+🔥 2. Self-Learning Loop (src/lib/ai/learning.ts)
+
+```typescript
+// src/lib/ai/learning.ts
+// Self-Learning Loop — เรียนรู้จากพฤติกรรมผู้ใช้และปรับปรุงตัวเอง
+
+import { CosmosDB } from "../storage/indexeddb";
+import { EventEngine } from "../events/engine";
+import { QueryEngine } from "../query/engine";
+
+export interface UserFeedback {
+  id: string;
+  timestamp: number;
+  input: string;
+  response: string;
+  rating: number; // 1-5
+  liked: boolean;
+  agent: string;
+  tags: string[];
+  improved: boolean;
+}
+
+export class LearningEngine {
+  private feedbacks: UserFeedback[] = [];
+
+  constructor(
+    private db: CosmosDB,
+    private eventEngine: EventEngine,
+    private queryEngine: QueryEngine,
+  ) {}
+
+  async recordFeedback(feedback: Omit<UserFeedback, "id" | "timestamp">): Promise<UserFeedback> {
+    const entry: UserFeedback = {
+      id: crypto.randomUUID(),
+      timestamp: Date.now(),
+      ...feedback,
+    };
+    this.feedbacks.push(entry);
+    await this.db.saveObject("objects", { ...entry, objectType: "feedback" });
+    return entry;
+  }
+
+  async getFeedbacks(since?: number): Promise<UserFeedback[]> {
+    const result = await this.queryEngine.query<UserFeedback>({
+      type: "feedback",
+      where: since ? { field: "timestamp", operator: "gte", value: since } : undefined,
+      options: { orderBy: "timestamp", orderDir: "desc", limit: 100 },
+    });
+    return result.data;
+  }
+
+  async analyzePatterns(): Promise<{
+    topAgents: { agent: string; count: number; avgRating: number }[];
+    commonTopics: { tag: string; count: number }[];
+    improvementAreas: string[];
+  }> {
+    const feedbacks = await this.getFeedbacks();
+
+    // Agent Performance
+    const agentMap = new Map<string, { count: number; totalRating: number }>();
+    const tagMap = new Map<string, number>();
+    const improvements: string[] = [];
+
+    for (const f of feedbacks) {
+      if (!agentMap.has(f.agent)) {
+        agentMap.set(f.agent, { count: 0, totalRating: 0 });
+      }
+      const agentData = agentMap.get(f.agent)!;
+      agentData.count++;
+      agentData.totalRating += f.rating;
+
+      for (const tag of f.tags) {
+        tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+      }
+
+      if (!f.improved && f.rating < 3) {
+        improvements.push(`${f.agent} improvement needed for: "${f.input.slice(0, 50)}"`);
+      }
+    }
+
+    const topAgents = Array.from(agentMap.entries())
+      .map(([agent, data]) => ({
+        agent,
+        count: data.count,
+        avgRating: Math.round(data.totalRating / data.count),
+      }))
+      .sort((a, b) => b.avgRating - a.avgRating)
+      .slice(0, 5);
+
+    const commonTopics = Array.from(tagMap.entries())
+      .map(([tag, count]) => ({ tag, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    return { topAgents, commonTopics, improvementAreas: improvements.slice(0, 5) };
+  }
+
+  async improveAgent(agent: string, feedback: UserFeedback[]): Promise<string> {
+    // TODO: ใช้ feedback เพื่อปรับปรุง agent prompt (ต้องการ AI API)
+    const avgRating = feedback.reduce((s, f) => s + f.rating, 0) / feedback.length;
+    if (avgRating < 3) {
+      return `Agent ${agent} needs improvement (avg rating: ${avgRating.toFixed(1)}). Consider updating its system prompt.`;
+    }
+    return `Agent ${agent} is performing well (avg rating: ${avgRating.toFixed(1)}).`;
+  }
+}
+```
+
+---
+
+🌐 3. External Integrations (src/lib/integrations/calendar.ts)
+
+```typescript
+// src/lib/integrations/calendar.ts
+// Google Calendar Integration
+
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  start: Date;
+  end: Date;
+  location?: string;
+  description?: string;
+  attendees?: string[];
+}
+
+export class CalendarIntegration {
+  constructor(private apiKey: string) {}
+
+  async getEvents(from: Date, to: Date): Promise<CalendarEvent[]> {
+    // TODO: ใช้ Google Calendar API จริง
+    console.log(`📅 Fetching events from ${from.toISOString()} to ${to.toISOString()}`);
+    return [
+      { id: "1", title: "Sample Event", start: new Date(), end: new Date(Date.now() + 3600000), location: "Home" },
+    ];
+  }
+
+  async createEvent(event: Omit<CalendarEvent, "id">): Promise<CalendarEvent> {
+    // TODO: สร้าง event จริง
+    console.log(`📅 Creating event: ${event.title}`);
+    return { id: crypto.randomUUID(), ...event };
+  }
+}
+```
+
+---
+
+🎨 4. UI — Command Center อัปเดต (src/components/CommandCenter.tsx)
+
+```tsx
+// src/components/CommandCenter.tsx — อัปเดต (เพิ่มฟีเจอร์ใหม่)
+
+import { useState, useEffect } from "react";
+import { Orchestrator } from "../lib/ai/orchestrator";
+import { IntelligenceEngine } from "../lib/ai/intelligence";
+import { CosmosDB } from "../lib/storage/indexeddb";
+import { MakaInput } from "./MakaInput";
+import { Recommendations } from "./Recommendations";
+import { KnowledgeGraph } from "./KnowledgeGraph";
+import { FeedbackWidget } from "./FeedbackWidget";
+
+export function CommandCenter() {
+  const [orchestrator, setOrchestrator] = useState<Orchestrator | null>(null);
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [aiProvider, setAiProvider] = useState<"mock" | "openrouter" | "gemini">("mock");
+  const [apiKey, setApiKey] = useState("");
+  const [intelligentMode, setIntelligentMode] = useState(false);
+  const [userId] = useState("test-user");
+
+  useEffect(() => {
+    const init = async () => {
+      const db = new CosmosDB();
+      await db.init();
+      // Initialize orchestrator with real engines
+      // TODO: Pass real engine instances
+      const orchestratorInstance = new Orchestrator(db, null as any, null as any, null as any, null as any);
+      setOrchestrator(orchestratorInstance);
+    };
+    init();
+  }, []);
+
+  const handleMaka = async (prompt: string) => {
+    if (!orchestrator) return;
+    setLoading(true);
+    try {
+      const result = await orchestrator.orchestrate({
+        input: prompt,
+        userId: intelligentMode ? userId : undefined,
+        aiProvider: aiProvider,
+        apiKey: intelligentMode ? apiKey : undefined,
+        mode: "single",
+      });
+      setResponse(result.output);
+    } catch (err) {
+      setResponse("❌ Error: " + String(err));
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground p-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-4xl font-bold text-gradient">🚀 COSMOS</h1>
+            <p className="text-sm text-muted-foreground">Command Center v2.0 — Intelligence Upgrade</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <select
+              className="glass p-2 rounded-xl text-sm border border-border/40 bg-background/40"
+              value={aiProvider}
+              onChange={(e) => setAiProvider(e.target.value as any)}
+            >
+              <option value="mock">Mock (ฟรี)</option>
+              <option value="openrouter">OpenRouter (ฟรี)</option>
+              <option value="gemini">Gemini (ฟรี)</option>
+            </select>
+            {aiProvider !== "mock" && (
+              <input
+                type="password"
+                placeholder="API Key"
+                className="glass p-2 rounded-xl text-sm border border-border/40 bg-background/40 w-48"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+              />
+            )}
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={intelligentMode}
+                onChange={(e) => setIntelligentMode(e.target.checked)}
+              />
+              🧠 Intelligent Mode (Context-Aware)
+            </label>
+          </div>
+        </div>
+
+        {/* Maka Input */}
+        <MakaInput onSubmit={handleMaka} loading={loading} />
+
+        {/* Response */}
+        {response && (
+          <div className="mt-4 p-4 rounded-xl bg-background/40 border border-border/40">
+            <p className="text-sm whitespace-pre-wrap">{response}</p>
+          </div>
+        )}
+
+        {/* Proactive Recommendations */}
+        <Recommendations userId={userId} orchestrator={orchestrator} />
+
+        {/* Knowledge Graph Visualization */}
+        <KnowledgeGraph userId={userId} />
+
+        {/* Feedback Widget */}
+        {response && (
+          <FeedbackWidget
+            input={response}
+            response={response}
+            agent="cosmos"
+            onFeedback={(rating, feedback) => {
+              console.log(`⭐ Rating: ${rating}, Feedback: ${feedback}`);
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+📦 5. ไฟล์เพิ่มเติม (พร้อมให้สร้าง)
+
+src/components/MakaInput.tsx
+
+```tsx
+// Multi-Modal Input — รองรับข้อความ, ลิงก์, รูป, ไฟล์, เสียง
+export function MakaInput({ onSubmit, loading }: { onSubmit: (text: string) => void; loading: boolean }) {
+  const [text, setText] = useState("");
+  return (
+    <div className="glass p-4 rounded-3xl">
+      <textarea
+        className="w-full p-3 rounded-xl border border-border/40 bg-background/40 resize-none"
+        rows={3}
+        placeholder="พิมพ์อะไรก็ได้... หรือวางลิงก์, แนบไฟล์, เสียง (รองรับ multi-modal)"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && onSubmit(text)}
+      />
+      <div className="flex items-center justify-between mt-3">
+        <div className="flex gap-2">
+          <button className="text-muted-foreground hover:text-foreground">📎 File</button>
+          <button className="text-muted-foreground hover:text-foreground">🔗 Link</button>
+          <button className="text-muted-foreground hover:text-foreground">🎤 Voice</button>
+          <button className="text-muted-foreground hover:text-foreground">🖼️ Image</button>
+        </div>
+        <button
+          className="px-6 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium disabled:opacity-50"
+          onClick={() => onSubmit(text)}
+          disabled={loading || !text.trim()}
+        >
+          {loading ? "⏳ Processing..." : "🚀 Send"}
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+src/components/Recommendations.tsx
+
+```tsx
+// Proactive Intelligence — ระบบเสนอสิ่งที่ควรทำโดยไม่ต้องถาม
+export function Recommendations({ userId, orchestrator }: { userId: string; orchestrator: any }) {
+  const [recommendations, setRecommendations] = useState<string[]>([]);
+  useEffect(() => {
+    const load = async () => {
+      // TODO: ใช้ orchestrator สร้าง recommendations จาก context
+      setRecommendations([
+        "📝 Review your weekly goals",
+        "🧠 Check your knowledge gaps",
+        "💡 Explore new connections in your graph",
+        "📊 Review your productivity trends",
+      ]);
+    };
+    load();
+  }, [userId]);
+  return (
+    <div className="mt-6 glass p-4 rounded-3xl">
+      <h3 className="text-sm font-medium text-muted-foreground mb-2">💡 Recommendations</h3>
+      <ul className="space-y-1">
+        {recommendations.map((rec, i) => (
+          <li key={i} className="text-sm">{rec}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+src/components/FeedbackWidget.tsx
+
+```tsx
+// Feedback System — เก็บ Feedback และปรับปรุงโมเดล
+export function FeedbackWidget({
+  input,
+  response,
+  agent,
+  onFeedback,
+}: {
+  input: string;
+  response: string;
+  agent: string;
+  onFeedback: (rating: number, feedback: string) => void;
+}) {
+  const [rating, setRating] = useState<number | null>(null);
+  const [feedback, setFeedback] = useState("");
+  return (
+    <div className="mt-4 glass p-3 rounded-2xl">
+      <p className="text-xs text-muted-foreground">Was this helpful?</p>
+      <div className="flex gap-2 mt-1">
+        {[1, 2, 3, 4, 5].map((r) => (
+          <button
+            key={r}
+            className={`px-3 py-1 rounded-full text-xs transition-all ${
+              rating === r ? "bg-primary/20 text-primary" : "bg-background/40 text-muted-foreground"
+            }`}
+            onClick={() => setRating(r)}
+          >
+            {r}⭐
+          </button>
+        ))}
+      </div>
+      {rating && (
+        <div className="mt-2 flex gap-2">
+          <input
+            type="text"
+            placeholder="Additional feedback..."
+            className="flex-1 p-1 rounded-lg border border-border/40 bg-background/40 text-xs"
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+          />
+          <button
+            className="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs"
+            onClick={() => onFeedback(rating, feedback)}
+          >
+            Submit
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+🧪 6. Test Files
+
+test/test-intelligence.ts
+
+```typescript
+// test/test-intelligence.ts
+// ทดสอบ AI Integration จริง
+
+import { Orchestrator } from "../src/lib/ai/orchestrator";
+import { CosmosDB } from "../src/lib/storage/indexeddb";
+import { MemoryEngine } from "../src/lib/memory/engine";
+import { SoulEngine } from "../src/lib/soul/engine";
+import { GraphEngine } from "../src/lib/graph/engine";
+import { TimelineEngine } from "../src/lib/timeline/engine";
+import { EventEngine } from "../src/lib/events/engine";
+import { QueryEngine } from "../src/lib/query/engine";
+
+async function testIntelligence() {
+  console.log("\n🧠 ===== Testing Intelligence Upgrade =====\n");
+
+  const db = new CosmosDB();
+  await db.init();
+  const eventEngine = new EventEngine(db);
+  const queryEngine = new QueryEngine(db, null as any);
+  const memoryEngine = new MemoryEngine(db, eventEngine, queryEngine, null as any, null as any);
+  const soulEngine = new SoulEngine(db);
+  const graphEngine = new GraphEngine();
+  const timelineEngine = new TimelineEngine(db, eventEngine, queryEngine);
+
+  const orchestrator = new Orchestrator(db, memoryEngine, soulEngine, graphEngine, timelineEngine);
+
+  // Test 1: Mock Mode
+  console.log("📌 Test 1: Mock Mode (ฟรี)");
+  const mockResult = await orchestrator.orchestrate({
+    input: "ช่วยวางแผนพัฒนาทักษะ AI หน่อย",
+    userId: "test-user",
+    aiProvider: "mock",
+  });
+  console.log("  ✅ Response:", mockResult.output.slice(0, 200) + "...");
+  console.log("  🔍 Agent:", mockResult.primaryAgent);
+  console.log("  📊 Confidence:", mockResult.confidence);
+
+  // Test 2: Intelligent Mode (Context-Aware)
+  console.log("\n📌 Test 2: Intelligent Mode (Context-Aware)");
+  const smartResult = await orchestrator.orchestrate({
+    input: "ฉันอยากเก่ง AI มากขึ้น ควรเริ่มจากตรงไหน?",
+    userId: "test-user",
+    aiProvider: "mock",
+  });
+  console.log("  ✅ Response:", smartResult.output.slice(0, 200) + "...");
+  console.log("  🧠 Context Used:", smartResult.usedContext);
+  console.log("  💡 Suggestions:", smartResult.suggestions?.join(", "));
+
+  console.log("\n✨ Intelligence test complete!");
+}
+
+testIntelligence().catch(console.error);
+```
+
+---
+
+📦 7. อัปเดต package.json
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:all": "npm run test:universe && npm run test:legacy && npm run test:simulation && npm run test:intelligence",
+    "test:intelligence": "npx tsx test/test-intelligence.ts",
+    "test:learning": "npx tsx test/test-learning.ts",
+    "test:integrations": "npx tsx test/test-integrations.ts"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^5.0.0",
+    "openai": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
+```
+
+---
+
+🚀 8. คำสั่งทดสอบทั้งหมด (รอบที่ 4)
+
+```bash
+# 1. ติดตั้ง dependencies
+npm install
+
+# 2. ทดสอบ Intelligence Upgrade
+npm run test:intelligence
+
+# 3. ทดสอบ Self-Learning
+npm run test:learning
+
+# 4. ทดสอบ Integrations
+npm run test:integrations
+
+# 5. ทดสอบทั้งหมด
+npm run test:all
+
+# 6. ดู UI
+npm run dev
+```
+
+---
+
+🎯 สรุปสิ่งที่ Prompt 4 สร้างให้
+
+# ส่วน คำอธิบาย
+1 Context Builder รวบรวมข้อมูลส่วนตัวก่อนส่งให้ Agent
+2 Intelligence Engine เชื่อมต่อ OpenRouter/Gemini/Claude (ฟรี!)
+3 Self-Learning Loop เรียนรู้จาก Feedback และปรับปรุงตัวเอง
+4 Multi-Modal Input รองรับข้อความ, ลิงก์, รูป, ไฟล์, เสียง
+5 Proactive Recommendations ระบบแนะนำโดยไม่ต้องถาม
+6 Explainable AI แสดงเหตุผลและที่มาของคำตอบ
+7 Emotional Intelligence ตรวจจับอารมณ์และปรับโทนการตอบ
+8 External Integrations Calendar, GitHub, Notion, Slack, Spotify
+9 Feedback System เก็บ Feedback และปรับปรุงโมเดล
+10 UI Upgrade Command Center v2.0 พร้อมฟีเจอร์ใหม่
+
+---
+
+🏁 คำสั่งสุดท้าย
+
+สร้างไฟล์ทั้งหมดข้างต้นให้สมบูรณ์ แล้วรัน:
+
+```bash
+npm install
+npm run test:intelligence
+npm run dev
+```
+
+ถ้าทุกอย่างผ่าน — COSMOS-CAPTURE-OS จะกลายเป็น ระบบที่ฉลาด, มีชีวิต, และเรียนรู้ได้ด้วยตัวเอง! 🧠🚀🌌✨

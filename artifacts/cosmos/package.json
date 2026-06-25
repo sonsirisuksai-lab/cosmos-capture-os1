@@ -12,7 +12,10 @@
     "test:legacy": "npx tsx test/test-legacy.ts",
     "test:simulation": "npx tsx test/test-simulation.ts",
     "test:migration": "npx tsx test/test-migration.ts",
-    "test:all": "pnpm test:universe && pnpm test:legacy && pnpm test:simulation && pnpm test:migration"
+    "test:intelligence": "npx tsx test/test-intelligence.ts",
+    "test:learning": "npx tsx test/test-learning.ts",
+    "test:integrations": "npx tsx test/test-integrations.ts",
+    "test:all": "pnpm test:universe && pnpm test:legacy && pnpm test:simulation && pnpm test:migration && pnpm test:intelligence"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
