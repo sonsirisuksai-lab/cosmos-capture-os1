@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "COSMOS-CAPTURE-OS"
+version = "1.0.0"
+id = "artifacts/cosmos"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22618
+
+[services.development]
+run = "pnpm --filter @workspace/cosmos run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cosmos", "run", "build" ]
+publicDir = "artifacts/cosmos/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22618"
+BASE_PATH = "/"

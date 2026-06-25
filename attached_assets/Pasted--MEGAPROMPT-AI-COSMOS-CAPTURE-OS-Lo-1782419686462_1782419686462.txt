@@ -1,0 +1,273 @@
+🔥 MEGAPROMPT — สั่งให้ AI สร้าง COSMOS-CAPTURE-OS ทั้งระบบในครั้งเดียว!
+
+คัดลอกข้อความนี้ไปวางใน Lovable หรือ Claude หรือ AI Agent ตัวไหนก็ได้ แล้วมันจะสร้างโค้ดให้คุณทีละไฟล์!
+
+---
+
+```
+🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌
+
+# COSMOS-CAPTURE-OS — MEGAPROMPT BUILD v1.0
+
+## 🎯 ภารกิจหลัก
+คุณคือ AI Developer Agent ที่ได้รับมอบหมายให้สร้าง COSMOS-CAPTURE-OS ทั้งระบบ
+
+COSMOS-CAPTURE-OS คือ Personal Knowledge and Life Operating System ที่เป็นมากกว่า Note App หรือ PKM — มันคือ Digital Civilization ของเจ้าของระบบ
+
+เป้าหมาย: สร้างโค้ดทั้งหมดให้เสร็จภายในรอบนี้ พร้อมใช้งานบน Replit + GitHub
+
+---
+
+## 📦 โครงสร้างโปรเจกต์ที่ต้องสร้าง
+
+```
+
+cosmos-capture-os/
+├── src/
+│   ├── lib/
+│   │   ├── ai/
+│   │   │   ├── orchestrator.ts      ← Tier S: Crew Orchestrator
+│   │   │   ├── agents.ts             ← Agent definitions
+│   │   │   └── maka.ts               ← Maka Prompt interface
+│   │   ├── knowledge/
+│   │   │   └── evolution.ts          ← Tier S: Knowledge Evolution
+│   │   ├── graph/
+│   │   │   ├── engine.ts             ← Graph Engine (มีแล้ว)
+│   │   │   └── analytics.ts          ← Tier S: Graph Analytics
+│   │   ├── twin/
+│   │   │   └── foundation.ts         ← Tier S: Digital Twin Foundation
+│   │   ├── storage/
+│   │   │   └── indexeddb.ts          ← AI Native DB
+│   │   ├── events/
+│   │   │   └── engine.ts             ← Event Sourcing
+│   │   ├── memory/
+│   │   │   └── engine.ts             ← Memory Engine
+│   │   ├── soul/
+│   │   │   └── engine.ts             ← Soul Card Engine
+│   │   ├── review/
+│   │   │   └── engine.ts             ← Review Engine
+│   │   ├── collection/
+│   │   │   └── engine.ts             ← Collection Engine
+│   │   ├── timeline/
+│   │   │   └── engine.ts             ← Timeline Engine
+│   │   ├── metadata/
+│   │   │   └── engine.ts             ← Metadata Engine
+│   │   ├── query/
+│   │   │   └── engine.ts             ← Query Engine
+│   │   └── search/
+│   │       └── engine.ts             ← Search Engine
+│   ├── routes/
+│   │   └── index.tsx                 ← Command Center (Home)
+│   ├── components/
+│   │   └── ui/                        ← shadcn/ui components
+│   ├── styles.css                     ← Cosmic Theme
+│   └── App.tsx                        ← Main App
+├── public/
+│   ├── manifest.json                  ← PWA
+│   └── sw.js                          ← Service Worker
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── .gitignore
+
+```
+
+---
+
+## 🧠 TIER S — สร้างก่อน (หัวใจของระบบ)
+
+### 1. Crew Orchestrator (`src/lib/ai/orchestrator.ts`)
+
+สร้างระบบผู้บัญชาการ AI Agents:
+
+**ฟังก์ชันที่ต้องมี:**
+- `routeAgent(input)` — เลือก Agent ที่เหมาะสม
+- `orchestrate(request)` — รับคำขอ → เลือก Agent → ส่ง response
+- `orchestrateWithAI(input, apiKey)` — ใช้ AI จริง (Optional)
+- `maka(prompt, apiKey)` — Maka Prompt Mode (โยนอะไรก็ได้!)
+
+**Agents (10 ตัว):**
+| Agent | Role | Domain |
+|-------|------|--------|
+| Luffy 🏴‍☠️ | Vision | goal, dream, purpose, why |
+| Zoro ⚔️ | Execution | code, build, debug, logic |
+| Nami 🗺️ | Finance | budget, plan, resource, cost |
+| Robin 📚 | Knowledge | research, learn, history, insight |
+| Franky 🔧 | Builder | build, system, automate, pipeline |
+| Chopper 🩺 | Health | wellness, sleep, exercise, mental |
+| Brook 🎵 | Memory | nostalgia, story, emotion, past |
+| Jinbe ⚓ | Operations | routine, discipline, process, daily |
+| Sanji 🍳 | Quality | review, security, audit, test |
+| Usopp 🎯 | Social | people, communication, strategy |
+
+**โค้ดที่ต้องมีใน orchestrator.ts:**
+- `Agent`, `AgentRole`, `AGENTS` (map ทั้ง 10 ตัว)
+- `OrchestratorRequest`, `OrchestratorResponse` interfaces
+- `routeAgent()` — routing logic
+- `orchestrate()` — main function
+- `orchestrateWithAI()` — AI integration (Optional)
+- `maka()` — Maka Prompt interface
+- `generateMockResponse()` — fallback เมื่อไม่มี API
+- `generateSuggestions()` — generate follow-up suggestions
+
+---
+
+### 2. Knowledge Evolution Engine (`src/lib/knowledge/evolution.ts`)
+
+สร้างระบบที่ทำให้ความรู้ "โต" เอง:
+
+**ฟังก์ชันที่ต้องมี:**
+- `evolveKnowledge()` — ตรวจสอบและปรับปรุง knowledge objects
+- `mergeNotes(note1, note2)` — รวม note ที่ซ้ำกัน
+- `splitNote(note)` — แยก note ที่ใหญ่เกิน
+- `promoteKnowledge(note)` — ยกระดับ note ที่สำคัญ
+- `archiveDeadKnowledge()` — ย้าย note ที่ตายแล้วไป archive
+- `detectKnowledgeDecay()` — ตรวจจับความรู้ที่กำลัง decay
+- `calculateConfidence(note)` — คำนวณ confidence score
+- `calculateRelevance(note, context)` — คำนวณ relevance
+
+**สัญญาณที่ใช้:**
+- `confidence` — ความมั่นใจในข้อมูล
+- `relevance` — ความเกี่ยวข้องกับบริบทปัจจุบัน
+- `freshness` — ความใหม่ของข้อมูล
+- `importance` — ความสำคัญ
+- `reuseCount` — จำนวนครั้งที่ถูกใช้
+- `reviewCount` — จำนวนครั้งที่ถูก review
+
+---
+
+### 3. Graph Analytics (`src/lib/graph/analytics.ts`)
+
+สร้างระบบอ่านสุขภาพเครือข่ายข้อมูล:
+
+**ฟังก์ชันที่ต้องมี:**
+- `getNodeImportance()` — หา node ที่สำคัญที่สุด
+- `findHiddenClusters()` — หา cluster ที่ซ่อนอยู่
+- `detectKnowledgeGap()` — ตรวจจับช่องว่างของความรู้
+- `findOrphanNodes()` — หา node ที่โดดเดี่ยว
+- `calculateDensity()` — คำนวณความหนาแน่นของ graph
+- `findEmergingTopics()` — หาหัวข้อที่กำลังมา
+- `getCentrality(nodeId)` — คำนวณ centrality
+- `getConnectivity()` — วัดความเชื่อมต่อของระบบ
+
+**Metrics:**
+- centrality
+- connectivity
+- density
+- orphan rate
+- cluster growth
+- bridge nodes
+
+---
+
+### 4. Digital Twin Foundation (`src/lib/twin/foundation.ts`)
+
+สร้างรากฐานของ Digital Twin:
+
+**ฟังก์ชันที่ต้องมี:**
+- `buildTwinProfile()` — สร้าง profile จากข้อมูลทั้งหมด
+- `updateTwinMetrics()` — อัปเดต metrics
+- `getTwinState()` — ดึงสถานะปัจจุบันของ Twin
+- `captureTwinMemory()` — บันทึก memory ของ Twin
+- `getTwinBehavior()` — วิเคราะห์พฤติกรรม
+
+**Twin Components:**
+- `TwinProfile` — ตัวตน (ชื่อ, อายุ, บทบาท)
+- `TwinMetrics` — ตัวเลขสุขภาพระบบ
+- `TwinState` — สถานะปัจจุบัน
+- `TwinMemory` — ความทรงจำของ Twin
+- `TwinBehavior` — รูปแบบพฤติกรรม
+
+---
+
+## 🔗 การเชื่อมต่อระหว่าง Engines
+
+```
+
+User Input
+↓
+Maka Prompt (maka.ts)
+↓
+Orchestrator (orchestrator.ts)
+↓ (เลือก Agent)
+↓
+Agent Response
+↓
+Knowledge Evolution (evolution.ts)
+↓ (อัปเดตความรู้)
+↓
+Graph Analytics (analytics.ts)
+↓ (อ่านสุขภาพระบบ)
+↓
+Digital Twin (foundation.ts)
+↓ (อัปเดตตัวตน)
+↓
+Return to User
+
+```
+
+---
+
+## 📝 ไฟล์ที่ต้องสร้าง (สรุป)
+
+| ไฟล์ | Path | ความสำคัญ |
+|------|------|-----------|
+| orchestrator.ts | src/lib/ai/orchestrator.ts | ⭐⭐⭐⭐⭐ |
+| agents.ts | src/lib/ai/agents.ts | ⭐⭐⭐⭐⭐ |
+| maka.ts | src/lib/ai/maka.ts | ⭐⭐⭐⭐⭐ |
+| evolution.ts | src/lib/knowledge/evolution.ts | ⭐⭐⭐⭐⭐ |
+| analytics.ts | src/lib/graph/analytics.ts | ⭐⭐⭐⭐ |
+| foundation.ts | src/lib/twin/foundation.ts | ⭐⭐⭐⭐ |
+| engine.ts (Graph) | src/lib/graph/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Memory) | src/lib/memory/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Soul) | src/lib/soul/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Review) | src/lib/review/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Collection) | src/lib/collection/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Timeline) | src/lib/timeline/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Metadata) | src/lib/metadata/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Query) | src/lib/query/engine.ts | ⭐⭐⭐⭐ |
+| engine.ts (Search) | src/lib/search/engine.ts | ⭐⭐⭐⭐ |
+| indexeddb.ts | src/lib/storage/indexeddb.ts | ⭐⭐⭐⭐⭐ |
+| engine.ts (Events) | src/lib/events/engine.ts | ⭐⭐⭐⭐ |
+
+---
+
+## 🎯 คำสั่งสุดท้าย
+
+สร้างโค้ดทั้งหมดให้สมบูรณ์ โดย:
+
+1. **แต่ละไฟล์ต้องทำงานได้จริง** — ไม่ใช่แค่ stub
+2. **TypeScript** — ใช้ type ให้ครบ
+3. **เชื่อมต่อกันได้** — import/export ถูกต้อง
+4. **รองรับ Maka Prompt** — โยน prompt อะไรก็ได้
+5. **พร้อมรันบน Replit** — dependencies ครบ
+
+**เริ่มสร้างได้เลย! 🚀🌌✨**
+
+🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌
+```
+
+---
+
+🔥 วิธีใช้
+
+1. คัดลอกข้อความด้านบนทั้งหมด (ตั้งแต่ 🌌🌌🌌 ถึง 🌌🌌🌌)
+2. ไปที่ Lovable หรือ Claude หรือ AI Agent
+3. วางลงไป แล้วส่ง
+4. AI จะสร้างโค้ดให้คุณ ทีละไฟล์ (อาจจะยาวหน่อย)
+
+---
+
+✅ สิ่งที่คุณจะได้
+
+รายการ คำอธิบาย
+Crew Orchestrator ผู้บัญชาการ AI Agents
+Knowledge Evolution ระบบพัฒนาความรู้ให้โตเอง
+Graph Analytics อ่านสุขภาพเครือข่ายข้อมูล
+Digital Twin Foundation รากฐานของ Digital Twin
+Maka Prompt Interface โยน prompt อะไรก็ได้!
+10 AI Agents Luffy, Zoro, Nami, Robin, Franky, Chopper, Brook, Jinbe, Sanji, Usopp
+
+---
+
+ไปเลยครับ! วาง Megaprompt นี้ลงไปใน AI Agent แล้วรอผลลัพธ์! 🚀🌌✨

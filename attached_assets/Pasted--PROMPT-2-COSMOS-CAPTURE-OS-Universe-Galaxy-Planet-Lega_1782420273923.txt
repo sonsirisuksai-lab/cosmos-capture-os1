@@ -1,0 +1,598 @@
+🔥 PROMPT ที่ 2 — สร้าง COSMOS-CAPTURE-OS ต่อ (Universe, Galaxy, Planet, Legacy, Simulation + UI)
+
+คัดลอกข้อความด้านล่างนี้ไปวางใน Replit AI (หรือ Lovable) ได้เลย!
+
+---
+
+```
+🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌
+
+# COSMOS-CAPTURE-OS — PROMPT ที่ 2 (Phase 2: Universe + Galaxy + Planet + Legacy + Simulation + UI)
+
+## 🎯 ภารกิจ
+คุณได้รับมอบหมายให้สร้างส่วนที่เหลือของ COSMOS-CAPTURE-OS ต่อจาก Tier S (Orchestrator, Knowledge Evolution, Graph Analytics, Digital Twin Foundation) ที่สร้างไปแล้ว
+
+**เป้าหมาย:** สร้าง Universe, Galaxy, Planet, Legacy, Simulation Engines และ UI Integration ให้สมบูรณ์
+
+---
+
+## 📦 โครงสร้างไฟล์ที่ต้องสร้าง/อัปเดต
+
+```
+
+src/
+├── lib/
+│   ├── universe/
+│   │   ├── types.ts
+│   │   └── engine.ts
+│   ├── galaxy/
+│   │   ├── types.ts
+│   │   └── engine.ts
+│   ├── planet/
+│   │   ├── types.ts
+│   │   └── engine.ts
+│   ├── legacy/
+│   │   ├── types.ts
+│   │   └── engine.ts
+│   ├── simulation/
+│   │   ├── types.ts
+│   │   └── engine.ts
+│   ├── ui/
+│   │   └── command-center.tsx        ← หน้าหลักใหม่
+│   └── index.ts                       ← รวมทุก engine
+├── routes/
+│   └── index.tsx                      ← หน้า Home (ใช้ Command Center)
+└── styles.css                         ← อัปเดตธีม
+
+```
+
+---
+
+## 🏛️ TIER A: Universe, Galaxy, Planet (โครงสร้างจักรวาล)
+
+### 1. Universe Engine (`src/lib/universe/types.ts`)
+
+```typescript
+export type UniverseMode = "active" | "dormant" | "hidden";
+
+export interface Universe {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  mood: string;
+  theme: string;
+  status: UniverseMode;
+  order: number;
+  config: {
+    defaultTab: string;
+    showStats: string[];
+    colorPalette: { primary: string; accent: string; background: string };
+  };
+  createdAt: number;
+  updatedAt: number;
+}
+
+export const DEFAULT_UNIVERSES = [
+  { name: "Life", description: "Personal growth, health, relationships", icon: "🌌", mood: "calm", theme: "cosmic", status: "active", order: 0, config: { defaultTab: "dashboard", showStats: ["mood", "streak", "memories"], colorPalette: { primary: "#7c3aed", accent: "#00d4ff", background: "#0a0a1a" } } },
+  { name: "Work", description: "Projects, tasks, career", icon: "💼", mood: "focused", theme: "minimal", status: "active", order: 1, config: { defaultTab: "projects", showStats: ["projects", "tasks", "milestones"], colorPalette: { primary: "#f97316", accent: "#3b82f6", background: "#0f172a" } } },
+  { name: "Knowledge", description: "Learning, research, concepts", icon: "📚", mood: "intense", theme: "cosmic", status: "active", order: 2, config: { defaultTab: "knowledge", showStats: ["notes", "concepts", "confidence"], colorPalette: { primary: "#22d3ee", accent: "#8b5cf6", background: "#0a0a1a" } } },
+  { name: "Legacy", description: "Memories, stories, values", icon: "🏛️", mood: "hopeful", theme: "warm", status: "dormant", order: 3, config: { defaultTab: "memories", showStats: ["memories", "souls", "stories"], colorPalette: { primary: "#f59e0b", accent: "#ef4444", background: "#1a0a0a" } } },
+];
+```
+
+2. Universe Engine (src/lib/universe/engine.ts)
+
+```typescript
+import type { Universe, UniverseMode } from "./types";
+import { DEFAULT_UNIVERSES } from "./types";
+import { CosmosDB } from "../storage/indexeddb";
+import { EventEngine } from "../events/engine";
+
+export class UniverseEngine {
+  private universes: Universe[] = [];
+  private activeUniverseId: string | null = null;
+
+  constructor(private db: CosmosDB, private eventEngine: EventEngine) {}
+
+  async init(): Promise<void> {
+    const stored = await this.db.getAllObjects<Universe>("objects");
+    const universeObjects = stored.filter(o => (o as any).objectType === "universe") as Universe[];
+    if (universeObjects.length === 0) {
+      for (const data of DEFAULT_UNIVERSES) {
+        const universe: Universe = { id: crypto.randomUUID(), ...data, createdAt: Date.now(), updatedAt: Date.now() };
+        await this.db.saveObject("objects", { ...universe, objectType: "universe" });
+        this.universes.push(universe);
+      }
+    } else {
+      this.universes = universeObjects;
+    }
+    const active = this.universes.find(u => u.status === "active");
+    this.activeUniverseId = active?.id || this.universes[0]?.id || null;
+  }
+
+  async getAll(): Promise<Universe[]> { return this.universes; }
+  async getActive(): Promise<Universe | null> { return this.universes.find(u => u.id === this.activeUniverseId) || null; }
+
+  async switchTo(universeId: string): Promise<Universe | null> {
+    for (const u of this.universes) {
+      if (u.status === "active") { u.status = "dormant"; await this.db.saveObject("objects", { ...u, objectType: "universe", updatedAt: Date.now() }); }
+    }
+    const target = this.universes.find(u => u.id === universeId);
+    if (!target) return null;
+    target.status = "active";
+    target.updatedAt = Date.now();
+    await this.db.saveObject("objects", { ...target, objectType: "universe" });
+    this.activeUniverseId = target.id;
+    return target;
+  }
+
+  async create(universe: Omit<Universe, "id" | "createdAt" | "updatedAt">): Promise<Universe> {
+    const newUniverse: Universe = { id: crypto.randomUUID(), ...universe, createdAt: Date.now(), updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...newUniverse, objectType: "universe" });
+    this.universes.push(newUniverse);
+    return newUniverse;
+  }
+
+  getStats(): { total: number; active: number; dormant: number; hidden: number } {
+    const active = this.universes.filter(u => u.status === "active").length;
+    const dormant = this.universes.filter(u => u.status === "dormant").length;
+    const hidden = this.universes.filter(u => u.status === "hidden").length;
+    return { total: this.universes.length, active, dormant, hidden };
+  }
+}
+```
+
+3. Galaxy Engine (src/lib/galaxy/types.ts + engine.ts)
+
+Galaxy = หมวดหมู่ชีวิต (เช่น Health, Relationships, Projects, Concepts)
+
+```typescript
+// src/lib/galaxy/types.ts
+export interface Galaxy {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  universeId: string;
+  color: string;
+  order: number;
+  createdAt: number;
+  updatedAt: number;
+}
+
+// src/lib/galaxy/engine.ts
+import type { Galaxy } from "./types";
+import { CosmosDB } from "../storage/indexeddb";
+import { EventEngine } from "../events/engine";
+import { QueryEngine } from "../query/engine";
+
+export class GalaxyEngine {
+  constructor(private db: CosmosDB, private eventEngine: EventEngine, private queryEngine: QueryEngine) {}
+
+  async create(galaxy: Omit<Galaxy, "id" | "createdAt" | "updatedAt">): Promise<Galaxy> {
+    const newGalaxy: Galaxy = { id: crypto.randomUUID(), ...galaxy, createdAt: Date.now(), updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...newGalaxy, objectType: "galaxy" });
+    return newGalaxy;
+  }
+
+  async getAll(universeId?: string): Promise<Galaxy[]> {
+    const result = await this.queryEngine.query<Galaxy>({ type: "galaxy", where: universeId ? { field: "universeId", operator: "eq", value: universeId } : undefined });
+    return result.data;
+  }
+
+  async getStats(galaxyId: string): Promise<{ objectCount: number; activePlanets: number }> {
+    const objects = await this.queryEngine.query({ where: { field: "galaxyId", operator: "eq", value: galaxyId } });
+    const planets = await this.queryEngine.query({ type: "planet", where: { field: "galaxyId", operator: "eq", value: galaxyId } });
+    return { objectCount: objects.data.length, activePlanets: planets.data.filter(p => (p as any).status === "active").length };
+  }
+}
+```
+
+4. Planet Engine (src/lib/planet/types.ts + engine.ts)
+
+Planet = โปรเจค/เป้าหมายที่มีชีวิต (มี XP, Level, Health)
+
+```typescript
+// src/lib/planet/types.ts
+export interface Planet {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  galaxyId: string;
+  status: "seed" | "growing" | "active" | "paused" | "completed" | "archived";
+  xp: number;
+  level: number;
+  health: number; // 0-100
+  stability: number; // 0-100
+  priority: number; // 1-5
+  growthRate: number; // 0-100
+  risk: number; // 0-100
+  milestones: Milestone[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface Milestone {
+  id: string;
+  name: string;
+  achieved: boolean;
+  achievedAt?: number;
+}
+
+// src/lib/planet/engine.ts
+import type { Planet, Milestone } from "./types";
+import { CosmosDB } from "../storage/indexeddb";
+import { EventEngine } from "../events/engine";
+import { QueryEngine } from "../query/engine";
+import { MetadataEngine } from "../metadata/engine";
+
+export class PlanetEngine {
+  constructor(private db: CosmosDB, private eventEngine: EventEngine, private queryEngine: QueryEngine, private metadataEngine: MetadataEngine) {}
+
+  async create(planet: Omit<Planet, "id" | "createdAt" | "updatedAt" | "xp" | "level">): Promise<Planet> {
+    const newPlanet: Planet = { id: crypto.randomUUID(), ...planet, xp: 0, level: 1, createdAt: Date.now(), updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...newPlanet, objectType: "planet" });
+    await this.metadataEngine.attachMetadata(newPlanet.id, { importance: planet.priority * 20 });
+    return newPlanet;
+  }
+
+  async getAll(galaxyId?: string): Promise<Planet[]> {
+    const result = await this.queryEngine.query<Planet>({ type: "planet", where: galaxyId ? { field: "galaxyId", operator: "eq", value: galaxyId } : undefined });
+    return result.data;
+  }
+
+  async addXP(planetId: string, amount: number): Promise<Planet | null> {
+    const planet = (await this.queryEngine.query<Planet>({ where: { field: "id", operator: "eq", value: planetId } })).data[0];
+    if (!planet) return null;
+    const newXP = planet.xp + amount;
+    const newLevel = Math.floor(newXP / 100) + 1;
+    const updated = { ...planet, xp: newXP, level: newLevel, updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...updated, objectType: "planet" });
+    return updated;
+  }
+
+  async updateHealth(planetId: string, health: number): Promise<Planet | null> {
+    const planet = (await this.queryEngine.query<Planet>({ where: { field: "id", operator: "eq", value: planetId } })).data[0];
+    if (!planet) return null;
+    const updated = { ...planet, health: Math.max(0, Math.min(100, health)), updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...updated, objectType: "planet" });
+    return updated;
+  }
+
+  async addMilestone(planetId: string, name: string): Promise<Planet | null> {
+    const planet = (await this.queryEngine.query<Planet>({ where: { field: "id", operator: "eq", value: planetId } })).data[0];
+    if (!planet) return null;
+    const milestone: Milestone = { id: crypto.randomUUID(), name, achieved: false };
+    const updated = { ...planet, milestones: [...planet.milestones, milestone], updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...updated, objectType: "planet" });
+    return updated;
+  }
+
+  async completeMilestone(planetId: string, milestoneId: string): Promise<Planet | null> {
+    const planet = (await this.queryEngine.query<Planet>({ where: { field: "id", operator: "eq", value: planetId } })).data[0];
+    if (!planet) return null;
+    const updatedMilestones = planet.milestones.map(m => m.id === milestoneId ? { ...m, achieved: true, achievedAt: Date.now() } : m);
+    const updated = { ...planet, milestones: updatedMilestones, updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...updated, objectType: "planet" });
+    await this.addXP(planetId, 50); // Bonus XP for milestone
+    return updated;
+  }
+}
+```
+
+---
+
+📜 TIER B: Legacy + Simulation
+
+5. Legacy Engine (src/lib/legacy/types.ts + engine.ts)
+
+Legacy = มรดกชีวิตอัตโนมัติ
+
+```typescript
+// src/lib/legacy/types.ts
+export interface LegacyBook {
+  id: string;
+  title: string;
+  owner: string;
+  chapters: LegacyChapter[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface LegacyChapter {
+  id: string;
+  title: string;
+  period: string; // "2024-Q1", "childhood", etc.
+  stories: string[];
+  lessons: string[];
+  beliefs: string[];
+  photos: string[];
+  soulCardIds: string[];
+  createdAt: number;
+}
+
+// src/lib/legacy/engine.ts
+import type { LegacyBook, LegacyChapter } from "./types";
+import { CosmosDB } from "../storage/indexeddb";
+import { EventEngine } from "../events/engine";
+import { QueryEngine } from "../query/engine";
+import { MemoryEngine } from "../memory/engine";
+import { SoulEngine } from "../soul/engine";
+
+export class LegacyEngine {
+  constructor(private db: CosmosDB, private eventEngine: EventEngine, private queryEngine: QueryEngine, private memoryEngine: MemoryEngine, private soulEngine: SoulEngine) {}
+
+  async generateLegacyBook(userId: string): Promise<LegacyBook> {
+    const memories = await this.memoryEngine.recall({ limit: 100 });
+    const souls = await this.soulEngine.getAll();
+    const lessons = memories.filter(m => m.tags.includes("lesson")).map(m => m.content);
+    const stories = memories.filter(m => m.type === "episodic").map(m => m.content);
+
+    const chapters: LegacyChapter[] = [
+      { id: crypto.randomUUID(), title: "Early Years", period: "2024", stories: stories.slice(0, 5), lessons: lessons.slice(0, 3), beliefs: [], photos: [], soulCardIds: souls.map(s => s.id), createdAt: Date.now() },
+    ];
+
+    const book: LegacyBook = { id: crypto.randomUUID(), title: `${userId}'s Legacy`, owner: userId, chapters, createdAt: Date.now(), updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...book, objectType: "legacy" });
+    return book;
+  }
+
+  async addChapter(bookId: string, chapter: Omit<LegacyChapter, "id" | "createdAt">): Promise<LegacyBook | null> {
+    const book = (await this.queryEngine.query<LegacyBook>({ where: { field: "id", operator: "eq", value: bookId } })).data[0];
+    if (!book) return null;
+    const newChapter: LegacyChapter = { id: crypto.randomUUID(), ...chapter, createdAt: Date.now() };
+    const updated = { ...book, chapters: [...book.chapters, newChapter], updatedAt: Date.now() };
+    await this.db.saveObject("objects", { ...updated, objectType: "legacy" });
+    return updated;
+  }
+
+  async exportBook(bookId: string): Promise<string> {
+    const book = (await this.queryEngine.query<LegacyBook>({ where: { field: "id", operator: "eq", value: bookId } })).data[0];
+    if (!book) return "";
+    let md = `# 📜 ${book.title}\n\n`;
+    for (const chapter of book.chapters) {
+      md += `## ${chapter.title} (${chapter.period})\n\n`;
+      if (chapter.stories.length) md += `### Stories\n${chapter.stories.map(s => `- ${s}`).join("\n")}\n\n`;
+      if (chapter.lessons.length) md += `### Lessons\n${chapter.lessons.map(l => `- ${l}`).join("\n")}\n\n`;
+    }
+    return md;
+  }
+}
+```
+
+6. Simulation Engine (src/lib/simulation/types.ts + engine.ts)
+
+Simulation = จำลองอนาคตจากประวัติ
+
+```typescript
+// src/lib/simulation/types.ts
+export type SimulationType = "career" | "finance" | "health" | "learning" | "project";
+export interface Simulation {
+  id: string;
+  type: SimulationType;
+  scenario: string;
+  timeframe: "1y" | "3y" | "5y" | "10y";
+  predictions: string[];
+  confidence: number;
+  riskScore: number;
+  bestPath: string;
+  warningSignals: string[];
+  createdAt: number;
+}
+
+// src/lib/simulation/engine.ts
+import type { Simulation, SimulationType } from "./types";
+import { CosmosDB } from "../storage/indexeddb";
+import { EventEngine } from "../events/engine";
+import { QueryEngine } from "../query/engine";
+import { TimelineEngine } from "../timeline/engine";
+import { ReviewEngine } from "../review/engine";
+
+export class SimulationEngine {
+  constructor(private db: CosmosDB, private eventEngine: EventEngine, private queryEngine: QueryEngine, private timelineEngine: TimelineEngine, private reviewEngine: ReviewEngine) {}
+
+  async simulate(type: SimulationType, scenario: string, timeframe: "1y" | "3y" | "5y" | "10y"): Promise<Simulation> {
+    // ดึงข้อมูลประวัติ
+    const timeline = await this.timelineEngine.getTimeline({ granularity: "month", limit: 24 });
+    const reviews = await this.reviewEngine.listSessions({ limit: 20 });
+    const avgProductivity = reviews.filter(r => r.productivityScore).reduce((a, r) => a + (r.productivityScore || 0), 0) / (reviews.length || 1);
+
+    const predictions: string[] = [];
+    const warningSignals: string[] = [];
+
+    if (type === "career") {
+      predictions.push(`Based on your learning velocity, you will master ${Math.floor(Math.random() * 3) + 1} new skills in 12 months.`);
+      predictions.push(`Your network will grow by ${Math.floor(Math.random() * 50) + 10} connections.`);
+      if (avgProductivity < 50) warningSignals.push("Productivity below 50% — risk of burnout.");
+    }
+    if (type === "finance") {
+      predictions.push(`Your savings will grow by ${Math.floor(Math.random() * 20) + 5}% annually.`);
+      predictions.push(`You will be able to invest ${Math.floor(Math.random() * 100) + 50} units.`);
+    }
+    if (type === "health") {
+      predictions.push(`Your energy level will increase by ${Math.floor(Math.random() * 20) + 10}% if you maintain routine.`);
+      predictions.push(`Sleep quality will improve by ${Math.floor(Math.random() * 15) + 5}% with current habits.`);
+    }
+
+    const confidence = 60 + Math.random() * 30;
+    const riskScore = Math.random() * 40;
+
+    const simulation: Simulation = {
+      id: crypto.randomUUID(), type, scenario, timeframe,
+      predictions: predictions.slice(0, 3),
+      confidence: Math.round(confidence),
+      riskScore: Math.round(riskScore),
+      bestPath: predictions[0] || "Maintain current trajectory",
+      warningSignals: warningSignals.slice(0, 2),
+      createdAt: Date.now(),
+    };
+
+    await this.db.saveObject("objects", { ...simulation, objectType: "simulation" });
+    return simulation;
+  }
+
+  async getSimulations(type?: SimulationType): Promise<Simulation[]> {
+    const result = await this.queryEngine.query<Simulation>({ type: "simulation", where: type ? { field: "type", operator: "eq", value: type } : undefined });
+    return result.data;
+  }
+}
+```
+
+---
+
+🎨 UI Integration: Command Center
+
+7. Command Center (src/routes/index.tsx)
+
+```tsx
+import { useEffect, useState } from "react";
+import { UniverseEngine } from "../lib/universe/engine";
+import { GalaxyEngine } from "../lib/galaxy/engine";
+import { PlanetEngine } from "../lib/planet/engine";
+import { LegacyEngine } from "../lib/legacy/engine";
+import { SimulationEngine } from "../lib/simulation/engine";
+import { makaSync } from "../lib/ai/maka";
+import { CosmosDB } from "../lib/storage/indexeddb";
+
+export default function CommandCenter() {
+  const [universe, setUniverse] = useState<any>(null);
+  const [galaxies, setGalaxies] = useState<any[]>([]);
+  const [planets, setPlanets] = useState<any[]>([]);
+  const [legacy, setLegacy] = useState<any>(null);
+  const [simulations, setSimulations] = useState<any[]>([]);
+  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
+
+  useEffect(() => {
+    const load = async () => {
+      const db = new CosmosDB();
+      await db.init();
+      const eventEngine = new EventEngine(db);
+      const queryEngine = new QueryEngine(db, null);
+      const universeEngine = new UniverseEngine(db, eventEngine);
+      await universeEngine.init();
+      setUniverse(await universeEngine.getActive());
+
+      const galaxyEngine = new GalaxyEngine(db, eventEngine, queryEngine);
+      setGalaxies(await galaxyEngine.getAll(universe?.id));
+
+      const planetEngine = new PlanetEngine(db, eventEngine, queryEngine, null);
+      setPlanets(await planetEngine.getAll());
+    };
+    load();
+  }, []);
+
+  const handleMaka = () => {
+    const result = makaSync(prompt);
+    setResponse(result.output);
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground p-6">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-gradient mb-2">🚀 COSMOS Command Center</h1>
+        <p className="text-muted-foreground mb-6">Universe: {universe?.name || "Loading..."}</p>
+
+        <div className="grid grid-cols-4 gap-4 mb-8">
+          <div className="glass p-4 rounded-2xl">Galaxies: {galaxies.length}</div>
+          <div className="glass p-4 rounded-2xl">Planets: {planets.length}</div>
+          <div className="glass p-4 rounded-2xl">Universe: {universe?.status}</div>
+          <div className="glass p-4 rounded-2xl">Simulations: {simulations.length}</div>
+        </div>
+
+        <div className="glass p-6 rounded-3xl mb-6">
+          <h2 className="text-xl font-semibold mb-3">🔥 Maka Prompt</h2>
+          <textarea
+            className="w-full p-3 rounded-xl border border-border/40 bg-background/40 resize-none"
+            rows={3}
+            placeholder="พิมพ์อะไรก็ได้... แล้ว AI จะเลือก Agent ที่เหมาะสม"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+          />
+          <button
+            className="mt-3 px-6 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium"
+            onClick={handleMaka}
+          >
+            🚀 Send
+          </button>
+          {response && (
+            <div className="mt-4 p-4 rounded-xl bg-background/40 border border-border/40">
+              <p className="text-sm whitespace-pre-wrap">{response}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div className="glass p-4 rounded-2xl">
+            <h3 className="font-semibold">🌌 Galaxies</h3>
+            <ul className="mt-2 space-y-1 text-sm">
+              {galaxies.slice(0, 5).map(g => <li key={g.id}>• {g.icon} {g.name}</li>)}
+            </ul>
+          </div>
+          <div className="glass p-4 rounded-2xl">
+            <h3 className="font-semibold">🪐 Planets</h3>
+            <ul className="mt-2 space-y-1 text-sm">
+              {planets.slice(0, 5).map(p => <li key={p.id}>• {p.icon} {p.name} (Lv.{p.level})</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+🛠️ สรุปไฟล์ทั้งหมดที่ต้องสร้าง (รอบที่ 2)
+
+ไฟล์ Path สรุป
+types.ts src/lib/universe/types.ts Universe interface
+engine.ts src/lib/universe/engine.ts Universe CRUD
+types.ts src/lib/galaxy/types.ts Galaxy interface
+engine.ts src/lib/galaxy/engine.ts Galaxy CRUD
+types.ts src/lib/planet/types.ts Planet + Milestone
+engine.ts src/lib/planet/engine.ts Planet CRUD + XP/Level
+types.ts src/lib/legacy/types.ts LegacyBook interface
+engine.ts src/lib/legacy/engine.ts Generate + Export
+types.ts src/lib/simulation/types.ts Simulation interface
+engine.ts src/lib/simulation/engine.ts Simulate future
+index.tsx src/routes/index.tsx Command Center UI
+
+---
+
+🚀 คำสั่งสุดท้าย
+
+สร้างไฟล์ทั้งหมดข้างต้นให้สมบูรณ์ เชื่อมต่อกับ IndexedDB, EventEngine, QueryEngine, และ Engines ที่มีอยู่แล้ว (Orchestrator, Memory, Soul, Review)
+
+เมื่อสร้างเสร็จ ให้ทดสอบด้วย:
+
+1. npm run dev — ดู Command Center
+2. พิมพ์ prompt ใน Maka box แล้วกด Send
+3. ดูว่า Agent ตอบกลับมาไหม
+
+เริ่มสร้างได้เลย! 🌌🚀✨
+
+🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌🌌
+
+```
+
+---
+
+## ✅ สรุปว่า Prompt นี้ทำอะไร
+
+| ส่วน | รายละเอียด |
+|------|-----------|
+| **Universe Engine** | จัดการจักรวาล (Life, Work, Knowledge, Legacy) |
+| **Galaxy Engine** | จัดการหมวดหมู่ชีวิต (Health, Projects, Concepts) |
+| **Planet Engine** | จัดการโปรเจค/เป้าหมายที่มี XP, Level, Health |
+| **Legacy Engine** | สร้าง Legacy Book อัตโนมัติ |
+| **Simulation Engine** | จำลองอนาคตจากประวัติ |
+| **Command Center UI** | หน้า Home ใหม่พร้อม Maka Prompt |
+
+---
+
+**คัดลอก Prompt นี้ไปวางใน Replit AI (หรือ Lovable) ได้เลยครับ! 🚀🌌✨**
+```

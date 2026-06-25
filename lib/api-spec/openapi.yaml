@@ -1,22 +1,35 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: COSMOS-CAPTURE-OS API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: notes
+    description: Knowledge note operations
+  - name: orchestrator
+    description: AI Agent orchestration
+  - name: graph
+    description: Knowledge graph operations
+  - name: twin
+    description: Digital Twin operations
+  - name: timeline
+    description: Timeline event operations
+  - name: collections
+    description: Collection operations
+  - name: dashboard
+    description: Dashboard analytics
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +37,373 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── Notes ──────────────────────────────────────────────────────────────
+  /notes:
+    get:
+      operationId: listNotes
+      tags: [notes]
+      summary: List all notes
+      parameters:
+        - name: tag
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: type
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+    post:
+      operationId: createNote
+      tags: [notes]
+      summary: Create a note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+
+  /notes/{id}:
+    get:
+      operationId: getNote
+      tags: [notes]
+      summary: Get a note by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateNote
+      tags: [notes]
+      summary: Update a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NoteUpdate"
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+    delete:
+      operationId: deleteNote
+      tags: [notes]
+      summary: Delete a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Deleted
+
+  /notes/{id}/star:
+    patch:
+      operationId: toggleNoteStar
+      tags: [notes]
+      summary: Toggle star on a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+
+  /notes/recent:
+    get:
+      operationId: getRecentNotes
+      tags: [notes]
+      summary: Get recently created/updated notes
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 10 }
+      responses:
+        "200":
+          description: Recent notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+
+  /notes/starred:
+    get:
+      operationId: getStarredNotes
+      tags: [notes]
+      summary: Get starred/important notes
+      responses:
+        "200":
+          description: Starred notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+
+  # ── Orchestrator ────────────────────────────────────────────────────────
+  /orchestrate:
+    post:
+      operationId: orchestrate
+      tags: [orchestrator]
+      summary: Send a prompt to the AI crew orchestrator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrchestrateInput"
+      responses:
+        "200":
+          description: Agent response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentReply"
+
+  /orchestrate/history:
+    get:
+      operationId: getOrchestrateHistory
+      tags: [orchestrator]
+      summary: Get recent orchestration history
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+      responses:
+        "200":
+          description: History list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrchestrateHistory"
+
+  # ── Graph ───────────────────────────────────────────────────────────────
+  /graph/nodes:
+    get:
+      operationId: getGraphNodes
+      tags: [graph]
+      summary: Get all graph nodes and edges
+      responses:
+        "200":
+          description: Graph data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GraphData"
+
+  /graph/analytics:
+    get:
+      operationId: getGraphAnalytics
+      tags: [graph]
+      summary: Get graph health and analytics metrics
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GraphAnalytics"
+
+  # ── Digital Twin ────────────────────────────────────────────────────────
+  /twin:
+    get:
+      operationId: getTwinProfile
+      tags: [twin]
+      summary: Get the current Digital Twin profile and state
+      responses:
+        "200":
+          description: Twin data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TwinProfile"
+    patch:
+      operationId: updateTwinProfile
+      tags: [twin]
+      summary: Update twin profile fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TwinUpdate"
+      responses:
+        "200":
+          description: Updated twin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TwinProfile"
+
+  # ── Timeline ─────────────────────────────────────────────────────────────
+  /timeline:
+    get:
+      operationId: getTimeline
+      tags: [timeline]
+      summary: Get timeline events
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50 }
+        - name: type
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Timeline events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimelineEvent"
+    post:
+      operationId: createTimelineEvent
+      tags: [timeline]
+      summary: Log a new timeline event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TimelineEventInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TimelineEvent"
+
+  # ── Collections ──────────────────────────────────────────────────────────
+  /collections:
+    get:
+      operationId: listCollections
+      tags: [collections]
+      summary: List all collections
+      responses:
+        "200":
+          description: Collections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Collection"
+    post:
+      operationId: createCollection
+      tags: [collections]
+      summary: Create a collection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CollectionInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Collection"
+
+  /collections/{id}:
+    delete:
+      operationId: deleteCollection
+      tags: [collections]
+      summary: Delete a collection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Deleted
+
+  # ── Dashboard ────────────────────────────────────────────────────────────
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get dashboard summary stats
+      responses:
+        "200":
+          description: Stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  /dashboard/activity:
+    get:
+      operationId: getDashboardActivity
+      tags: [dashboard]
+      summary: Get recent activity feed
+      parameters:
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+      responses:
+        "200":
+          description: Activity feed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +414,244 @@ components:
       required:
         - status
 
+    # ── Note ──────────────────────────────────────────────────────────────
+    Note:
+      type: object
+      required: [id, title, content, type, tags, starred, confidence, createdAt, updatedAt]
+      properties:
+        id:          { type: integer }
+        title:       { type: string }
+        content:     { type: string }
+        type:        { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        starred:     { type: boolean }
+        confidence:  { type: number }
+        reuseCount:  { type: integer }
+        reviewCount: { type: integer }
+        linkedNoteIds:
+          type: array
+          items: { type: integer }
+        agentName:   { type: ["string", "null"] }
+        createdAt:   { type: string }
+        updatedAt:   { type: string }
+
+    NoteInput:
+      type: object
+      required: [title, content]
+      properties:
+        title:       { type: string, minLength: 1 }
+        content:     { type: string }
+        type:        { type: string, default: "note" }
+        tags:
+          type: array
+          items: { type: string }
+        agentName:   { type: string }
+
+    NoteUpdate:
+      type: object
+      properties:
+        title:       { type: string }
+        content:     { type: string }
+        type:        { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        starred:     { type: boolean }
+        confidence:  { type: number }
+
+    # ── Orchestrator ──────────────────────────────────────────────────────
+    OrchestrateInput:
+      type: object
+      required: [prompt]
+      properties:
+        prompt:      { type: string }
+        mode:        { type: string }
+        saveToNotes: { type: boolean }
+
+    AgentReply:
+      type: object
+      required: [agentName, agentEmoji, response, domain, suggestions]
+      properties:
+        agentName:   { type: string }
+        agentEmoji:  { type: string }
+        response:    { type: string }
+        domain:      { type: string }
+        suggestions:
+          type: array
+          items: { type: string }
+        noteId:      { type: ["integer", "null"] }
+
+    OrchestrateHistory:
+      type: object
+      required: [id, prompt, agentName, agentEmoji, response, createdAt]
+      properties:
+        id:          { type: integer }
+        prompt:      { type: string }
+        agentName:   { type: string }
+        agentEmoji:  { type: string }
+        response:    { type: string }
+        domain:      { type: string }
+        createdAt:   { type: string }
+
+    # ── Graph ─────────────────────────────────────────────────────────────
+    GraphNode:
+      type: object
+      required: [id, label, type, weight]
+      properties:
+        id:          { type: string }
+        label:       { type: string }
+        type:        { type: string }
+        weight:      { type: number }
+        tags:
+          type: array
+          items: { type: string }
+
+    GraphEdge:
+      type: object
+      required: [source, target, weight]
+      properties:
+        source:      { type: string }
+        target:      { type: string }
+        weight:      { type: number }
+
+    GraphData:
+      type: object
+      required: [nodes, edges]
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        edges:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphEdge"
+
+    GraphAnalytics:
+      type: object
+      required: [density, orphanCount, clusterCount, topNodes, emergingTopics]
+      properties:
+        density:       { type: number }
+        orphanCount:   { type: integer }
+        clusterCount:  { type: integer }
+        connectivity:  { type: number }
+        topNodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        emergingTopics:
+          type: array
+          items: { type: string }
+        knowledgeGaps:
+          type: array
+          items: { type: string }
+
+    # ── Twin ──────────────────────────────────────────────────────────────
+    TwinProfile:
+      type: object
+      required: [id, name, totalNotes, totalInteractions, dominantDomain, energyLevel, knowledgeScore, lastActive]
+      properties:
+        id:                  { type: integer }
+        name:                { type: string }
+        role:                { type: string }
+        totalNotes:          { type: integer }
+        totalInteractions:   { type: integer }
+        dominantDomain:      { type: string }
+        energyLevel:         { type: number }
+        knowledgeScore:      { type: number }
+        focusAreas:
+          type: array
+          items: { type: string }
+        lastActive:          { type: string }
+
+    TwinUpdate:
+      type: object
+      properties:
+        name:        { type: string }
+        role:        { type: string }
+        focusAreas:
+          type: array
+          items: { type: string }
+
+    # ── Timeline ──────────────────────────────────────────────────────────
+    TimelineEvent:
+      type: object
+      required: [id, type, title, description, createdAt]
+      properties:
+        id:          { type: integer }
+        type:        { type: string }
+        title:       { type: string }
+        description: { type: string }
+        agentName:   { type: ["string", "null"] }
+        noteId:      { type: ["integer", "null"] }
+        createdAt:   { type: string }
+
+    TimelineEventInput:
+      type: object
+      required: [type, title, description]
+      properties:
+        type:        { type: string }
+        title:       { type: string }
+        description: { type: string }
+        agentName:   { type: string }
+        noteId:      { type: integer }
+
+    # ── Collections ───────────────────────────────────────────────────────
+    Collection:
+      type: object
+      required: [id, name, description, noteCount, createdAt]
+      properties:
+        id:          { type: integer }
+        name:        { type: string }
+        description: { type: string }
+        color:       { type: string }
+        noteCount:   { type: integer }
+        createdAt:   { type: string }
+
+    CollectionInput:
+      type: object
+      required: [name]
+      properties:
+        name:        { type: string, minLength: 1 }
+        description: { type: string }
+        color:       { type: string }
+
+    # ── Dashboard ─────────────────────────────────────────────────────────
+    DashboardStats:
+      type: object
+      required: [totalNotes, starredNotes, totalInteractions, graphDensity, knowledgeScore, topDomains]
+      properties:
+        totalNotes:        { type: integer }
+        starredNotes:      { type: integer }
+        totalInteractions: { type: integer }
+        graphDensity:      { type: number }
+        knowledgeScore:    { type: number }
+        topDomains:
+          type: array
+          items:
+            type: object
+            required: [domain, count]
+            properties:
+              domain: { type: string }
+              count:  { type: integer }
+        notesByType:
+          type: array
+          items:
+            type: object
+            required: [type, count]
+            properties:
+              type:  { type: string }
+              count: { type: integer }
+
+    ActivityItem:
+      type: object
+      required: [id, type, title, agentName, agentEmoji, createdAt]
+      properties:
+        id:          { type: integer }
+        type:        { type: string }
+        title:       { type: string }
+        agentName:   { type: string }
+        agentEmoji:  { type: string }
+        createdAt:   { type: string }
