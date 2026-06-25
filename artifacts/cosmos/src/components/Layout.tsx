@@ -10,7 +10,8 @@ import {
   Clock,
   Menu,
   Activity,
-  Globe
+  Globe,
+  Settings2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -25,6 +26,7 @@ const NAV_ITEMS = [
   { href: "/twin", label: "Digital Twin", icon: User },
   { href: "/collections", label: "Star Collections", icon: FolderOpen },
   { href: "/timeline", label: "Event Stream", icon: Clock },
+  { href: "/settings", label: "Settings", icon: Settings2 },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {

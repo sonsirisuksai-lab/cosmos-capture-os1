@@ -7,7 +7,12 @@
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
     "build": "vite build --config vite.config.ts",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:universe": "npx tsx test/test-universe.ts",
+    "test:legacy": "npx tsx test/test-legacy.ts",
+    "test:simulation": "npx tsx test/test-simulation.ts",
+    "test:migration": "npx tsx test/test-migration.ts",
+    "test:all": "pnpm test:universe && pnpm test:legacy && pnpm test:simulation && pnpm test:migration"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",

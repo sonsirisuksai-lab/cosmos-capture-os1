@@ -1,0 +1,659 @@
+
+
+# COSMOS-CAPTURE-OS — PROMPT ที่ 3 (Integration, UI, Migration, Testing, Deployment)
+
+## 🎯 ภารกิจ
+คุณได้รับมอบหมายให้สร้างส่วนสุดท้ายของ COSMOS-CAPTURE-OS ที่เชื่อมทุก Engine เข้าด้วยกัน, สร้าง UI ให้ใช้งานได้จริง, สร้าง Migration Tool, และเตรียม Deploy
+
+**เป้าหมาย:** ทำให้ COSMOS เป็นระบบที่ทำงานได้ครบวงจร ตั้งแต่ Capture → Knowledge → Review → Legacy → Simulation
+
+---
+
+## 📦 โครงสร้างไฟล์ที่ต้องสร้าง/อัปเดต (รอบที่ 3)
+
+```
+
+src/
+├── lib/
+│   ├── index.ts                    ← รวมทุก engine (ใหม่)
+│   ├── storage/
+│   │   ├── indexeddb.ts            ← มีแล้ว
+│   │   └── migration.ts            ← ใหม่!
+│   ├── orchestrator/
+│   │   └── index.ts                ← รวม orchestrator + maka
+│   ├── universe/
+│   │   └── index.ts                ← รวม universe engine
+│   ├── galaxy/
+│   │   └── index.ts                ← รวม galaxy engine
+│   ├── planet/
+│   │   └── index.ts                ← รวม planet engine
+│   ├── legacy/
+│   │   └── index.ts                ← รวม legacy engine
+│   ├── simulation/
+│   │   └── index.ts                ← รวม simulation engine
+│   └── ui/
+│       └── command-center.tsx      ← ใหม่ (UI Components)
+├── routes/
+│   ├── __root.tsx                  ← อัปเดต
+│   └── index.tsx                   ← หน้า Home (ใช้ Command Center)
+├── components/
+│   ├── ui/                         ← shadcn/ui components
+│   └── CommandCenter.tsx           ← ใหม่
+├── test/
+│   ├── test-maka.ts                ← มีแล้ว
+│   ├── test-universe.ts            ← ใหม่
+│   ├── test-legacy.ts              ← ใหม่
+│   └── test-simulation.ts          ← ใหม่
+├── public/
+│   ├── manifest.json               ← PWA
+│   └── sw.js                       ← Service Worker
+├── package.json                    ← อัปเดต scripts
+├── tsconfig.json
+├── vite.config.ts
+└── .gitignore
+
+```
+
+---
+
+## 🔗 1. Integration Layer — รวมทุก Engine (`src/lib/index.ts`)
+
+```typescript
+// src/lib/index.ts
+// COSMOS-CAPTURE-OS — Core Library Export
+
+// ── Storage ──
+export { CosmosDB } from "./storage/indexeddb";
+export { MigrationTool } from "./storage/migration";
+
+// ── Events ──
+export { EventEngine } from "./events/engine";
+
+// ── Query ──
+export { QueryEngine } from "./query/engine";
+
+// ── Metadata ──
+export { MetadataEngine } from "./metadata/engine";
+
+// ── Graph ──
+export { GraphEngine } from "./graph/engine";
+
+// ── Memory ──
+export { MemoryEngine } from "./memory/engine";
+
+// ── Soul ──
+export { SoulEngine } from "./soul/engine";
+
+// ── Review ──
+export { ReviewEngine } from "./review/engine";
+
+// ── Collection ──
+export { CollectionEngine } from "./collection/engine";
+
+// ── Timeline ──
+export { TimelineEngine } from "./timeline/engine";
+
+// ── Search ──
+export { SearchEngine } from "./search/engine";
+
+// ── Universe ──
+export { UniverseEngine } from "./universe/engine";
+
+// ── Galaxy ──
+export { GalaxyEngine } from "./galaxy/engine";
+
+// ── Planet ──
+export { PlanetEngine } from "./planet/engine";
+
+// ── Legacy ──
+export { LegacyEngine } from "./legacy/engine";
+
+// ── Simulation ──
+export { SimulationEngine } from "./simulation/engine";
+
+// ── AI Orchestrator ──
+export { orchestrate, orchestrateWithAI, maka, makaSync, AGENTS } from "./ai/orchestrator";
+
+// ── Types ──
+export * from "./types";
+```
+
+---
+
+🗄️ 2. Migration Tool (src/lib/storage/migration.ts)
+
+```typescript
+// src/lib/storage/migration.ts
+// Migration Tool: localStorage → IndexedDB
+
+import { CosmosDB } from "./indexeddb";
+
+export interface MigrationResult {
+  success: boolean;
+  migrated: number;
+  errors: number;
+  logs: string[];
+}
+
+export class MigrationTool {
+  private db: CosmosDB;
+
+  constructor(db: CosmosDB) {
+    this.db = db;
+  }
+
+  async migrate(): Promise<MigrationResult> {
+    const logs: string[] = [];
+    let migrated = 0;
+    let errors = 0;
+
+    try {
+      // 1. ดึงข้อมูลจาก localStorage
+      const keys = Object.keys(localStorage);
+      const cosmosKeys = keys.filter(k => k.startsWith("cosmos."));
+
+      logs.push(`📦 Found ${cosmosKeys.length} cosmos keys in localStorage`);
+
+      for (const key of cosmosKeys) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) continue;
+
+          const data = JSON.parse(raw);
+          const storeName = this.mapKeyToStore(key);
+
+          if (Array.isArray(data)) {
+            for (const item of data) {
+              await this.db.saveObject(storeName, item);
+              migrated++;
+            }
+          } else {
+            await this.db.saveObject(storeName, { id: key, ...data });
+            migrated++;
+          }
+
+          logs.push(`✅ Migrated ${key} → ${storeName} (${Array.isArray(data) ? data.length : 1} items)`);
+        } catch (err) {
+          errors++;
+          logs.push(`❌ Failed to migrate ${key}: ${String(err)}`);
+        }
+      }
+
+      // 2. ตรวจสอบความถูกต้อง
+      const verification = await this.verifyMigration();
+      logs.push(`🔍 Verification: ${verification}`);
+
+      // 3. ถ้าสำเร็จ → ลบ localStorage (optional)
+      if (errors === 0) {
+        // อย่าลบ localStorage อัตโนมัติ — ให้ user ยืนยัน
+        logs.push("⚠️ localStorage data still exists. Run clearLocalStorage() when ready.");
+      }
+
+      return { success: errors === 0, migrated, errors, logs };
+
+    } catch (err) {
+      logs.push(`💥 Migration failed: ${String(err)}`);
+      return { success: false, migrated, errors: errors + 1, logs };
+    }
+  }
+
+  private mapKeyToStore(key: string): string {
+    const map: Record<string, string> = {
+      "cosmos.objects.v1": "objects",
+      "cosmos.relationships.v1": "edges",
+      "cosmos.collections.v1": "collections",
+      "cosmos.events.v1": "events",
+      "cosmos.soul.v1": "soulCards",
+      "cosmos.settings.v1": "settings",
+    };
+    return map[key] || "objects";
+  }
+
+  async verifyMigration(): Promise<string> {
+    try {
+      const stores = ["objects", "edges", "collections", "events", "soulCards"];
+      let total = 0;
+      for (const store of stores) {
+        const items = await this.db.getAllObjects(store);
+        total += items.length;
+      }
+      return `✅ Verified ${total} items across ${stores.length} stores`;
+    } catch (err) {
+      return `❌ Verification failed: ${String(err)}`;
+    }
+  }
+
+  async clearLocalStorage(): Promise<void> {
+    const keys = Object.keys(localStorage).filter(k => k.startsWith("cosmos."));
+    for (const key of keys) {
+      localStorage.removeItem(key);
+    }
+  }
+}
+```
+
+---
+
+🎨 3. UI — Command Center (src/components/CommandCenter.tsx)
+
+```tsx
+// src/components/CommandCenter.tsx
+// COSMOS Command Center — UI
+
+import { useState, useEffect } from "react";
+import { makaSync } from "../lib/ai/maka";
+import { UniverseEngine } from "../lib/universe/engine";
+import { GalaxyEngine } from "../lib/galaxy/engine";
+import { PlanetEngine } from "../lib/planet/engine";
+import { CosmosDB } from "../lib/storage/indexeddb";
+import { EventEngine } from "../lib/events/engine";
+import { QueryEngine } from "../lib/query/engine";
+
+interface CommandCenterProps {
+  onUniverseChange?: (universeId: string) => void;
+}
+
+export function CommandCenter({ onUniverseChange }: CommandCenterProps) {
+  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [universe, setUniverse] = useState<any>(null);
+  const [galaxies, setGalaxies] = useState<any[]>([]);
+  const [planets, setPlanets] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<"maka" | "universe" | "galaxy" | "planet">("maka");
+
+  useEffect(() => {
+    const load = async () => {
+      const db = new CosmosDB();
+      await db.init();
+      const eventEngine = new EventEngine(db);
+      const queryEngine = new QueryEngine(db, null as any);
+
+      const universeEngine = new UniverseEngine(db, eventEngine);
+      await universeEngine.init();
+      const active = await universeEngine.getActive();
+      setUniverse(active);
+
+      const galaxyEngine = new GalaxyEngine(db, eventEngine, queryEngine);
+      setGalaxies(await galaxyEngine.getAll(active?.id));
+
+      const planetEngine = new PlanetEngine(db, eventEngine, queryEngine, null as any);
+      setPlanets(await planetEngine.getAll());
+    };
+    load();
+  }, []);
+
+  const handleMaka = () => {
+    if (!prompt.trim()) return;
+    setLoading(true);
+    try {
+      const result = makaSync(prompt);
+      setResponse(result.output);
+    } catch (err) {
+      setResponse("❌ Error: " + String(err));
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-4xl font-bold text-gradient">🚀 COSMOS</h1>
+            <p className="text-sm text-muted-foreground">
+              Command Center · {universe?.name || "Loading..."}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">🌌 {galaxies.length} Galaxies</span>
+            <span className="text-sm text-muted-foreground">🪐 {planets.length} Planets</span>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-1 mb-6 glass p-1 rounded-2xl">
+          {[
+            { id: "maka", label: "🔥 Maka Prompt" },
+            { id: "universe", label: "🌌 Universe" },
+            { id: "galaxy", label: "🌠 Galaxies" },
+            { id: "planet", label: "🪐 Planets" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-4 py-2 rounded-xl text-sm transition-all ${
+                activeTab === tab.id
+                  ? "bg-primary/20 text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="glass rounded-3xl p-6">
+          {/* Maka Prompt */}
+          {activeTab === "maka" && (
+            <div>
+              <h2 className="text-xl font-semibold mb-3">🔥 Maka Prompt</h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                พิมพ์อะไรก็ได้... AI จะเลือก Agent ที่เหมาะสมให้
+              </p>
+              <textarea
+                className="w-full p-3 rounded-xl border border-border/40 bg-background/40 resize-none"
+                rows={3}
+                placeholder="พิมพ์ข้อความที่นี่..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleMaka()}
+              />
+              <button
+                className="mt-3 px-6 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white font-medium disabled:opacity-50"
+                onClick={handleMaka}
+                disabled={loading || !prompt.trim()}
+              >
+                {loading ? "⏳ Processing..." : "🚀 Send"}
+              </button>
+              {response && (
+                <div className="mt-4 p-4 rounded-xl bg-background/40 border border-border/40">
+                  <p className="text-sm whitespace-pre-wrap">{response}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Universe */}
+          {activeTab === "universe" && (
+            <div>
+              <h2 className="text-xl font-semibold mb-3">🌌 Universe</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-background/40 border border-border/40">
+                  <p className="text-sm text-muted-foreground">Active</p>
+                  <p className="text-2xl font-bold">{universe?.name || "—"}</p>
+                  <p className="text-xs text-muted-foreground">{universe?.description}</p>
+                </div>
+                <div className="p-4 rounded-xl bg-background/40 border border-border/40">
+                  <p className="text-sm text-muted-foreground">Status</p>
+                  <p className="text-2xl font-bold">{universe?.status || "—"}</p>
+                  <p className="text-xs text-muted-foreground">Mood: {universe?.mood}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Galaxies */}
+          {activeTab === "galaxy" && (
+            <div>
+              <h2 className="text-xl font-semibold mb-3">🌠 Galaxies</h2>
+              {galaxies.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No galaxies yet.</p>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  {galaxies.map((g) => (
+                    <div key={g.id} className="p-3 rounded-xl bg-background/40 border border-border/40">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{g.icon}</span>
+                        <span className="font-medium">{g.name}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">{g.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Planets */}
+          {activeTab === "planet" && (
+            <div>
+              <h2 className="text-xl font-semibold mb-3">🪐 Planets</h2>
+              {planets.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No planets yet.</p>
+              ) : (
+                <div className="grid grid-cols-2 gap-3">
+                  {planets.map((p) => (
+                    <div key={p.id} className="p-3 rounded-xl bg-background/40 border border-border/40">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">{p.icon}</span>
+                        <span className="font-medium">{p.name}</span>
+                      </div>
+                      <div className="flex gap-2 mt-1 text-xs text-muted-foreground">
+                        <span>Lv.{p.level}</span>
+                        <span>•</span>
+                        <span>❤️ {p.health || 80}%</span>
+                        <span>•</span>
+                        <span className={p.status === "active" ? "text-green-400" : "text-muted-foreground"}>
+                          {p.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="mt-6 text-center text-xs text-muted-foreground">
+          COSMOS-CAPTURE-OS v1.0 · Powered by Maka AI
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+📄 4. หน้า Home (src/routes/index.tsx)
+
+```tsx
+// src/routes/index.tsx
+import { CommandCenter } from "../components/CommandCenter";
+
+export default function Home() {
+  return <CommandCenter />;
+}
+```
+
+---
+
+🧪 5. Test Files
+
+test-universe.ts
+
+```typescript
+// test-universe.ts
+import { CosmosDB } from "./src/lib/storage/indexeddb";
+import { EventEngine } from "./src/lib/events/engine";
+import { UniverseEngine } from "./src/lib/universe/engine";
+
+async function testUniverse() {
+  console.log("\n🌌 ===== Testing Universe Engine =====\n");
+
+  const db = new CosmosDB();
+  await db.init();
+  const eventEngine = new EventEngine(db);
+  const universeEngine = new UniverseEngine(db, eventEngine);
+  await universeEngine.init();
+
+  const universes = await universeEngine.getAll();
+  console.log(`📦 Found ${universes.length} universes:`);
+  for (const u of universes) {
+    console.log(`  ${u.icon} ${u.name} (${u.status})`);
+  }
+
+  const active = await universeEngine.getActive();
+  console.log(`\n✅ Active: ${active?.name}`);
+
+  console.log("\n✨ Universe test complete!");
+}
+
+testUniverse().catch(console.error);
+```
+
+test-legacy.ts
+
+```typescript
+// test-legacy.ts
+import { CosmosDB } from "./src/lib/storage/indexeddb";
+import { EventEngine } from "./src/lib/events/engine";
+import { QueryEngine } from "./src/lib/query/engine";
+import { MemoryEngine } from "./src/lib/memory/engine";
+import { SoulEngine } from "./src/lib/soul/engine";
+import { LegacyEngine } from "./src/lib/legacy/engine";
+
+async function testLegacy() {
+  console.log("\n📜 ===== Testing Legacy Engine =====\n");
+
+  const db = new CosmosDB();
+  await db.init();
+  const eventEngine = new EventEngine(db);
+  const queryEngine = new QueryEngine(db, null as any);
+  const memoryEngine = new MemoryEngine(db, eventEngine, queryEngine, null as any, null as any);
+  const soulEngine = new SoulEngine(db);
+  const legacyEngine = new LegacyEngine(db, eventEngine, queryEngine, memoryEngine, soulEngine);
+
+  const book = await legacyEngine.generateLegacyBook("test-user");
+  console.log(`📖 Created Legacy Book: ${book.title}`);
+  console.log(`📚 Chapters: ${book.chapters.length}`);
+
+  const markdown = await legacyEngine.exportBook(book.id);
+  console.log(`\n📝 Preview:\n${markdown.slice(0, 300)}...`);
+
+  console.log("\n✨ Legacy test complete!");
+}
+
+testLegacy().catch(console.error);
+```
+
+test-simulation.ts
+
+```typescript
+// test-simulation.ts
+import { CosmosDB } from "./src/lib/storage/indexeddb";
+import { EventEngine } from "./src/lib/events/engine";
+import { QueryEngine } from "./src/lib/query/engine";
+import { TimelineEngine } from "./src/lib/timeline/engine";
+import { ReviewEngine } from "./src/lib/review/engine";
+import { SimulationEngine } from "./src/lib/simulation/engine";
+
+async function testSimulation() {
+  console.log("\n🔮 ===== Testing Simulation Engine =====\n");
+
+  const db = new CosmosDB();
+  await db.init();
+  const eventEngine = new EventEngine(db);
+  const queryEngine = new QueryEngine(db, null as any);
+  const timelineEngine = new TimelineEngine(db, eventEngine, queryEngine);
+  const reviewEngine = new ReviewEngine(db, eventEngine, queryEngine, null as any, timelineEngine, null as any, null as any);
+  const simulationEngine = new SimulationEngine(db, eventEngine, queryEngine, timelineEngine, reviewEngine);
+
+  const sim = await simulationEngine.simulate("career", "Become AI Engineer", "3y");
+  console.log(`🔮 Simulation: ${sim.scenario}`);
+  console.log(`📊 Confidence: ${sim.confidence}%`);
+  console.log(`⚠️ Risk: ${sim.riskScore}%`);
+  console.log(`📝 Predictions:`);
+  for (const p of sim.predictions) {
+    console.log(`  - ${p}`);
+  }
+
+  console.log("\n✨ Simulation test complete!");
+}
+
+testSimulation().catch(console.error);
+```
+
+---
+
+📦 6. อัปเดต package.json
+
+```json
+{
+  "name": "cosmos-capture-os",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "maka": "npx tsx test/test-maka.ts",
+    "test:universe": "npx tsx test/test-universe.ts",
+    "test:legacy": "npx tsx test/test-legacy.ts",
+    "test:simulation": "npx tsx test/test-simulation.ts",
+    "test:all": "npm run maka && npm run test:universe && npm run test:legacy && npm run test:simulation"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
+```
+
+---
+
+🚀 7. คำสั่งทดสอบทั้งหมด
+
+```bash
+# 1. ติดตั้ง dependencies
+npm install
+
+# 2. ทดสอบ Maka Prompt
+npm run maka
+
+# 3. ทดสอบ Universe
+npm run test:universe
+
+# 4. ทดสอบ Legacy
+npm run test:legacy
+
+# 5. ทดสอบ Simulation
+npm run test:simulation
+
+# 6. ทดสอบทั้งหมด
+npm run test:all
+
+# 7. ดู UI
+npm run dev
+```
+
+---
+
+🎯 สรุปสิ่งที่ Prompt 3 สร้างให้
+
+ไฟล์ Path คำอธิบาย
+index.ts src/lib/index.ts รวมทุก engine
+migration.ts src/lib/storage/migration.ts localStorage → IndexedDB
+CommandCenter.tsx src/components/CommandCenter.tsx UI หลัก
+index.tsx src/routes/index.tsx หน้า Home
+test-universe.ts test/test-universe.ts ทดสอบ Universe
+test-legacy.ts test/test-legacy.ts ทดสอบ Legacy
+test-simulation.ts test/test-simulation.ts ทดสอบ Simulation
+package.json package.json อัปเดต scripts
+
+---
+
+🏁 คำสั่งสุดท้าย
+
+สร้างไฟล์ทั้งหมดข้างต้นให้สมบูรณ์ แล้วรัน:
+
+```bash
+npm install
+npm run test:all
+npm run dev
+```
+
+ถ้าทุกอย่างผ่าน — COSMOS-CAPTURE-OS พร้อมใช้งาน! 🚀🌌✨
+
